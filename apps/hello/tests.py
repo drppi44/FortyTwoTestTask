@@ -1,6 +1,7 @@
 from apps.hello.models import MyData
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.test.client import Client
 from datetime import date
 
 
@@ -34,3 +35,24 @@ class HomeViewTest(TestCase):
 
         for key in _data.keys():
             self.assertEquals(_data[key], getattr(data, key))
+
+    def test_home_view_template(self):
+        """
+        index_view using right template
+        """
+        client = Client()
+
+        response = client.get('/')
+
+        self.assertTemplateUsed(response, 'index.html')
+
+    def test_home_view_data(self):
+        """
+        data send to template is valid
+        """
+        client = Client()
+
+        response = client.get('/')
+        data = MyData.objects.first()
+
+        self.assertEquals(response.context['data'], data)
