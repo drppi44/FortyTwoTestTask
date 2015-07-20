@@ -34,4 +34,3 @@ class HomeViewTest(TestCase):
 
         for key in _data.keys():
             self.assertEquals(_data[key], getattr(data, key))
-
