@@ -51,7 +51,6 @@ class HomeViewTest(TestCase):
         data send to template is valid
         """
         client = Client()
-
         response = client.get('/')
         data = MyData.objects.first()
 
