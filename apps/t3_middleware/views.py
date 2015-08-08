@@ -1,4 +1,3 @@
-import json
 from django.core import serializers
 from django.http import HttpResponse
 from .models import MyHttpRequest
@@ -18,3 +17,4 @@ def get_requests_view(request):
     data = serializers.serialize('json', _data)
     print data
     return HttpResponse(data)
+

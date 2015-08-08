@@ -11,7 +11,3 @@ class MyHttpRequest(models.Model):
 
     def __unicode__(self):
         return unicode(self.uri)
-
-
-
-

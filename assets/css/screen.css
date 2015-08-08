@@ -2,7 +2,7 @@
     width: 800px;
     height: 1070px;
     margin: auto;
-    background: url(/media/img/table_bg.gif) repeat;
+    background: url(/static/img/table_bg.gif) repeat;
 }
 #data_table td{
     width: 50%;
