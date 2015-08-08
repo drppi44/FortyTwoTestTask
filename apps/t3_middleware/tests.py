@@ -1,4 +1,3 @@
-from apps.hello.views import index_view
 from .models import MyHttpRequest
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
@@ -6,7 +5,8 @@ from django.test.client import RequestFactory, Client
 
 class TestRequestView(TestCase):
     """ Test class for t3_middleware app
-    include tests: save request to db, show it on page, update page asynchronously
+    include tests: save request to db, show it on page,
+     update page asynchronously
     """
     pass
 
@@ -32,4 +32,3 @@ class TestRequestView(TestCase):
 
         for key in kwargs.keys():
             self.assertEquals(kwargs[key], getattr(_request, key))
-
