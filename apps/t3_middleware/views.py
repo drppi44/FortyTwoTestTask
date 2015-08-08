@@ -17,4 +17,3 @@ def get_requests_view(request):
     data = serializers.serialize('json', _data)
     print data
     return HttpResponse(data)
-
