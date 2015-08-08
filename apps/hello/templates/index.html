@@ -5,31 +5,34 @@
 
 
 <div id="mid_content">
-<div id="table_header"><h3 >42 Coffee Cups Test Assignment</h3>
-</div>
-    <table id="data_table">
-        <tr>
-            <td>Name {{ data.name }}</td>
-            <td>Contacts</td>
-        </tr>
-        <tr>
-            <td>Last name {{ data.last_name }}</td>
-            <td>Email: {{ data.email }}</td>
-        </tr>
-        <tr>
-            <td>Date of birth {{ data.date_of_birth }}</td>
-            <td>Jabber: {{ data.jabber }}</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>Skype: {{ data.skype }}</td>
-        </tr>
-        <tr>
-            <td>Bio <br/> {{ data.bio }}</td>
-            <td>Other contacts: <br/> {{ data.other_contacts }}</td>
-        </tr>
-    </table>
+    <div id="container">
+        <h3 >42 Coffee Cups Test Assignment</h3>
+        <table id="data_table">
+            <tr>
+                <td>Name {{ data.name }}</td>
+                <td>Contacts</td>
+            </tr>
+            <tr>
+                <td>Last name {{ data.last_name }}</td>
+                <td>Email: {{ data.email }}</td>
+            </tr>
+            <tr>
+                <td>Date of birth {{ data.date_of_birth }}</td>
+                <td>Jabber: {{ data.jabber }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Skype: {{ data.skype }}</td>
+            </tr>
+            <tr>
+                <td>Bio <br/> {{ data.bio }}</td>
+                <td>Other contacts: <br/> {{ data.other_contacts }}</td>
+            </tr>
+        </table>
 
+        <div>_________________________________________</div>
+        <a href="{% url "request" %}">requests</a>
+    </div>
 </div>
 
 {% endblock %}
