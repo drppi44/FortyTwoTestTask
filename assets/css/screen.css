@@ -2,15 +2,12 @@
     width: 800px;
     height: 1070px;
     margin: auto;
-    background: url(/media/img/table_bg.gif) repeat;
-}
-#data_table{
-    width:90%;
-    margin:auto
+    background: url("/static/img/table_bg.gif") repeat;
 }
 #data_table td{
     width: 50%;
 }
-#table_header{
-    text-align: center;
+#container{
+    margin: auto;
+    width: 95%;
 }

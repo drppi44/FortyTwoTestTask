@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+42 Coffee Cups Test Assignment
+{% endblock %}
+
+{% block extra_head %}
+<script src="{% static 'js/myjs.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+
+
+<div id="mid_content">
+    <div id="container">
+    <h3 >42 Coffee Cups Test Assignment. Midleware.</h3>
+    <h4 id="header_info"></h4>
+        <table id="request_table">
+        </table>
+    </div>
+</div>
+
+{% endblock %}
