@@ -1,25 +1,42 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+
 {% block title %}
-42 Coffee Cups Test Assignment
+    42 Coffee Cups Test Assignment
 {% endblock %}
 
+
 {% block extra_head %}
-<script src="{% static 'js/myjs.js' %}"></script>
+    <script src="{% static 'js/myjs.js' %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" type="text/css">
+    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
+
 {% endblock %}
+
 
 {% block content %}
 
+    <div id="mid_content">
+        <div id="container">
 
+            <h3 >42 Coffee Cups Test Assignment. Midleware.</h3>
 
-<div id="mid_content">
-    <div id="container">
-    <h3 >42 Coffee Cups Test Assignment. Midleware.</h3>
-    <h4 id="header_info"></h4>
-        <table id="request_table">
-        </table>
+            <h4 id="header_info"></h4>
+            <table id="example" class="display" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>URI</th>
+                        <th>time</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
-</div>
 
 {% endblock %}
