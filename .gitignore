@@ -6,6 +6,7 @@
 *.swn
 *.esproj
 .idea
+htmlcov
 .Ds_Store
 *~
 git_ignore

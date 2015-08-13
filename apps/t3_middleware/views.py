@@ -13,7 +13,12 @@ def get_requests_view(request):
     :param request:
     :return: 10 last Http Requests from DB
     """
-    _data = MyHttpRequest.objects.all().order_by('-time')[:10]
-    data = serializers.serialize('json', _data)
-    print data
+    data = MyHttpRequest.objects.all().order_by('-time')[:10]
+
+    for obj in data:
+        obj.is_viewed = True
+        obj.save()
+
+    data = serializers.serialize('json', data)
+
     return HttpResponse(data)

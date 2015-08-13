@@ -2,4 +2,8 @@ from .models import MyHttpRequest
 from django.contrib import admin
 
 
-admin.site.register(MyHttpRequest)
+class MyHttpRequestAdmin(admin.ModelAdmin):
+    list_display = ('uri', 'is_viewed')
+
+
+admin.site.register(MyHttpRequest, MyHttpRequestAdmin)
