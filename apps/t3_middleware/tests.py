@@ -57,4 +57,8 @@ class TestRequestView(TestCase):
         self.client.get('/requests/')
 
         response = self.client.get('/request/ajax/getrequests/')
-        print str(response)
+        data = json.loads(response.content)
+
+        query_set_of_returned_myhttp_objects = MyHttpRequest.objects.filter(id__in=(obj['pk'] for obj in data))
+
+        self.assertTrue(all(obj.is_viewed for obj in query_set_of_returned_myhttp_objects))
