@@ -1,5 +1,4 @@
 from apps.hello.views import index_view
-from apps.t3_middleware.views import get_requests_view
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 

@@ -14,6 +14,9 @@ class HomePageTest(LiveServerTestCase):
         self.browser.quit()
 
     def test_home_page_has_data(self):
+        """
+        home page should contain table with mydata in it
+        """
         self.browser.get(self.live_server_url)
 
         my_data = MyData.objects.first()
@@ -38,6 +41,9 @@ class RequestPageTest(LiveServerTestCase):
         self.browser.quit()
 
     def test_requests_link_on_home_page_works(self):
+        """
+        homepage contains link ot request page (/request/)
+        """
         self.browser.get(self.live_server_url)
 
         self.browser.find_element_by_css_selector('a').click()
@@ -47,6 +53,9 @@ class RequestPageTest(LiveServerTestCase):
         self.assertIn('Midleware', title)
 
     def test_requests_page_updates_asynchronously(self):
+        """
+        when new httprequest comes, request page update its table
+        """
         self.browser.get(self.live_server_url+'/request/')
 
         time.sleep(2)

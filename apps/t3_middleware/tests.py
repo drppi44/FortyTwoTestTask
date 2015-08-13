@@ -1,5 +1,4 @@
 import json
-from django.core import serializers
 from .models import MyHttpRequest
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
@@ -36,6 +35,9 @@ class TestRequestView(TestCase):
             self.assertEquals(kwargs[key], getattr(_request, key))
 
     def test_request_page_uses_right__template(self):
+        """
+        /request/ page should use request.html
+        """
         response = self.client.get('/request/')
 
         self.assertTemplateUsed(response, 'request.html')
@@ -53,12 +55,20 @@ class TestRequestView(TestCase):
         self.assertNotEquals(_count, 0)
 
     def test_getrequest_marks_its_objects_as_viewed(self):
+        """
+        all query_string objects returned by getrequest
+         response should be marked as_views=True
+        """
         self.client.get('/')
         self.client.get('/requests/')
 
         response = self.client.get('/request/ajax/getrequests/')
         data = json.loads(response.content)
 
-        query_set_of_returned_myhttp_objects = MyHttpRequest.objects.filter(id__in=(obj['pk'] for obj in data))
+        query_set_of_returned_myhttp_objects = MyHttpRequest.objects.filter(
+            id__in=(obj['pk'] for obj in data)
+        )
 
-        self.assertTrue(all(obj.is_viewed for obj in query_set_of_returned_myhttp_objects))
+        self.assertTrue(
+            all(obj.is_viewed for obj in query_set_of_returned_myhttp_objects)
+        )
