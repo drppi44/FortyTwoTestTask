@@ -3,34 +3,46 @@
 {% block content %}
 
 
-<div id="mid_content">
-    <div id="container">
-        <h3 >42 Coffee Cups Test Assignment</h3>
-        <table id="data_table">
-            <tr>
-                <td>Name {{ data.name }}</td>
-                <td>Contacts</td>
-            </tr>
-            <tr>
-                <td>Last name {{ data.last_name }}</td>
-                <td>Email: {{ data.email }}</td>
-            </tr>
-            <tr>
-                <td>Date of birth {{ data.date_of_birth }}</td>
-                <td>Jabber: {{ data.jabber }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>Skype: {{ data.skype }}</td>
-            </tr>
-            <tr>
-                <td>Bio <br/> {{ data.bio }}</td>
-                <td>Other contacts: <br/> {{ data.other_contacts }}</td>
-            </tr>
-        </table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 jumbotron">
+            <div class="text-center">
+                <h1>42 Coffee Cups Test Assignment</h1>
+            </div>
+        </div>
+    </div>
 
-        <div>_________________________________________</div>
-        <a href="{% url "request" %}">requests</a>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">Name {{ data.name }}</div>
+        <div class="col-md-4">Contacts</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">Last name {{ data.last_name }}</div>
+        <div class="col-md-4">Email: {{ data.email }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">Date of birth {{ data.date_of_birth }}</div>
+        <div class="col-md-4">Jabber: {{ data.jabber }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3"></div>
+        <div class="col-md-4">Skype: {{ data.skype }}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-3">Bio <br/> {{ data.bio }}</div>
+        <div class="col-md-4">Other contacts: <br/> {{ data.other_contacts }}</div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <a class="btn btn-lg btn-success" href="{% url "request" %}">requests</a>
+        </div>
     </div>
 </div>
 
