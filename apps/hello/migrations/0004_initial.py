@@ -22,6 +22,9 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'hello', ['MyData'])
 
+        from django.core.management import call_command
+        call_command("loaddata", "initial_data.json")
+
 
     def backwards(self, orm):
         # Deleting model 'MyData'
