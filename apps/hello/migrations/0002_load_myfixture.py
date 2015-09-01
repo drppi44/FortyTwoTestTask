@@ -1,31 +1,21 @@
 # -*- coding: utf-8 -*-
 from south.utils import datetime_utils as datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        # Adding model 'MyData'
-        db.create_table(u'hello_mydata', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('date_of_birth', self.gf('django.db.models.fields.DateField')(blank=True)),
-            ('bio', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, blank=True)),
-            ('jabber', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('skype', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('other_contacts', self.gf('django.db.models.fields.TextField')(blank=True)),
-        ))
-        db.send_create_signal(u'hello', ['MyData'])
+        "Write your forwards methods here."
+        # Note: Don't use "from appname.models import ModelName". 
+        # Use orm.ModelName to refer to models in this application,
+        # and orm['appname.ModelName'] for models in other applications.
+        from django.core.management import call_command
+        call_command("loaddata", "initial_data.json")
 
     def backwards(self, orm):
-        # Deleting model 'MyData'
-        db.delete_table(u'hello_mydata')
-
+        "Write your backwards methods here."
 
     models = {
         u'hello.mydata': {
@@ -43,3 +33,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['hello']
+    symmetrical = True
