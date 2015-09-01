@@ -1,9 +1,14 @@
 $(document).ready(function(){
-    window.setInterval(get_requests, 1000);
+    window.setInterval(
+        function(){
+            get_requests();
+            get_request_count();
+        },
+        1000);
 });
 
 
-var get_requests = function(){
+function get_requests(){
     $.ajax({
         url:'request/ajax/getrequests/',
         type:'GET',
@@ -11,7 +16,18 @@ var get_requests = function(){
         success: show_requests,
         error:function(data){console.error(data)}
     });
-};
+}
+
+
+function get_request_count(){
+    $.ajax({
+        url:'request/ajax/getrequestscount/',
+        type:'GET',
+        dataType: 'json',
+        success: show_request_count,
+        error:function(data){console.error(data)}
+    });
+}
 
 
 var show_requests = function(requests){
@@ -28,3 +44,8 @@ var show_requests = function(requests){
 
     table.html(thead+tbody);
 };
+
+
+function show_request_count(count){
+    $('.container h1').html('('+count+') 42 Coffee Cups Test Assignment. Midleware.');
+}

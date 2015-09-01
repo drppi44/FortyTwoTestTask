@@ -8,4 +8,6 @@ urlpatterns = patterns(
 
     # ajax
     url(r'ajax/getrequests/$', get_requests_view),
+    url(r'ajax/getrequestscount/$',
+        'apps.t3_middleware.views.get_requests_count'),
 )
