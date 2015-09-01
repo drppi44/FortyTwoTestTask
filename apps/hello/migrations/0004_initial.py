@@ -30,7 +30,6 @@ class Migration(SchemaMigration):
         # Deleting model 'MyData'
         db.delete_table(u'hello_mydata')
 
-
     models = {
         u'hello.mydata': {
             'Meta': {'object_name': 'MyData'},
