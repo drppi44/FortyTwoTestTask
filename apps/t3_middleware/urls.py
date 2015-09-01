@@ -7,5 +7,5 @@ urlpatterns = patterns(
     url(r'^$', request_view, name='request'),
 
     # ajax
-    url(r'ajax/getrequests/$', get_requests_view),
+    url(r'ajax/getrequests/$', get_requests_view, name="requests"),
 )
