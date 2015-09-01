@@ -9,26 +9,19 @@
 
 {% block extra_head %}
     <script src="{% static 'js/myjs.js' %}"></script>
-
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
-
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" type="text/css">
-    <script type="text/javascript" language="javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-
-
 {% endblock %}
 
 
 {% block content %}
 
-    <div id="mid_content">
-        <div id="container">
+    <div class="container">
+        <h1>({{ requests_count }}) 42 Coffee Cups Test Assignment. Midleware.</h1>
+        <hr>
 
-            <h3 >42 Coffee Cups Test Assignment. Midleware.</h3>
+        <div class="row">
 
             <h4 id="header_info"></h4>
-            <table id="example" class="display" cellspacing="0" width="100%">
+            <table id="example" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th>URI</th>
@@ -37,6 +30,14 @@
                 </thead>
             </table>
         </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <a class="btn btn-lg btn-success" href="{% url "index" %}">home</a>
+            </div>
+        </div>
+        <hr>
+
     </div>
 
 {% endblock %}

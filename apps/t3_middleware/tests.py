@@ -60,7 +60,7 @@ class TestRequestView(TestCase):
          response should be marked as_views=True
         """
         self.client.get('/')
-        self.client.get('/requests/')
+        self.client.get('/request/')
 
         response = self.client.get('/request/ajax/getrequests/')
         data = json.loads(response.content)
@@ -72,3 +72,25 @@ class TestRequestView(TestCase):
         self.assertTrue(
             all(obj.is_viewed for obj in query_set_of_returned_myhttp_objects)
         )
+
+    def test_requests_number_updates(self):
+        """ requests number should updates asynchronously """
+        self.client.get('/')
+        response = self.client.get('/request/ajax/getrequestscount/')
+        self.assertEquals(response.content, '1')
+
+        self.client.get('/')
+        response = self.client.get('/request/ajax/getrequestscount/')
+        self.assertEquals(response.content, '2')
+
+    def test_requests_count_updates_on_page_reload(self):
+        """
+        :return: when /request/ page updates, last 10 myhhtprequest objects
+        sets ridden
+        """
+        self.client.get('/')
+        response = self.client.get('/request/ajax/getrequestscount/')
+        self.assertEquals(response.content, '1')
+
+        response = self.client.get('/request/')
+        self.assertEquals(response.context['requests_count'], 0)

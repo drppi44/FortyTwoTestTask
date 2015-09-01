@@ -12,5 +12,5 @@ class CustomMiddleware(object):
             'query_string': request.META['QUERY_STRING']
         }
 
-        if 'ajax/getrequests/' not in kwargs['uri']:
+        if 'request' not in kwargs['uri']:
             MyHttpRequest.objects.create(**kwargs)
