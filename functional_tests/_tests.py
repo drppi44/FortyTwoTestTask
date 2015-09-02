@@ -2,7 +2,7 @@ import time
 from apps.hello.models import MyData
 from django.test import LiveServerTestCase
 from selenium import webdriver
-
+from apps.t3_middleware.models import MyHttpRequest
 
 class HomePageTest(LiveServerTestCase):
     def setUp(self):
@@ -20,7 +20,7 @@ class HomePageTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         my_data = MyData.objects.first()
-        table_text = self.browser.find_element_by_id('data_table').text
+        table_text = self.browser.find_element_by_css_selector('.personal-info').text
 
         self.assertIn(my_data.name, table_text)
         self.assertIn(my_data.last_name, table_text)
@@ -46,9 +46,9 @@ class RequestPageTest(LiveServerTestCase):
         """
         self.browser.get(self.live_server_url)
 
-        self.browser.find_element_by_css_selector('a').click()
+        self.browser.find_element_by_css_selector('.btn-success').click()
 
-        title = self.browser.find_element_by_css_selector('h3').text
+        title = self.browser.find_element_by_css_selector('h1').text
 
         self.assertIn('Midleware', title)
 
@@ -73,3 +73,15 @@ class RequestPageTest(LiveServerTestCase):
         rows = table.find_elements_by_tag_name('tr')
 
         self.assertGreater(len(rows), _count)
+
+    def test_requests_page_title_updates_request_count(self):
+        """title on requests page should contain not viewed requests number"""
+        self.browser.get(self.live_server_url+'/request/')
+        time.sleep(2)
+
+        title_text = self.browser.find_element_by_css_selector('h1').text
+        title_text = title_text.split('(')[1]
+        request_count_from_template = title_text.split(')')[0]
+
+        not_viewed_request_count = MyHttpRequest.objects.filter(is_viewed=False).count()
+        self.assertEquals(int(request_count_from_template), not_viewed_request_count)    
