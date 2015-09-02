@@ -2,36 +2,65 @@
 
 {% block content %}
 
+<div class="container">
+    <h1>42 Coffee Cups Test Assignment</h1>
+    <hr>
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+          <h6>photo</h6>
+        </div>
+      </div>
 
-<div id="mid_content">
-    <div id="container">
-        <h3 >42 Coffee Cups Test Assignment</h3>
-        <table id="data_table">
-            <tr>
-                <td>Name {{ data.name }}</td>
-                <td>Contacts</td>
-            </tr>
-            <tr>
-                <td>Last name {{ data.last_name }}</td>
-                <td>Email: {{ data.email }}</td>
-            </tr>
-            <tr>
-                <td>Date of birth {{ data.date_of_birth }}</td>
-                <td>Jabber: {{ data.jabber }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>Skype: {{ data.skype }}</td>
-            </tr>
-            <tr>
-                <td>Bio <br/> {{ data.bio }}</td>
-                <td>Other contacts: <br/> {{ data.other_contacts }}</td>
-            </tr>
-        </table>
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
 
-        <div>_________________________________________</div>
-        <a href="{% url "request" %}">requests</a>
+        <div class="alert alert-info alert-dismissable" hidden>
+          <a class="panel-close close" data-dismiss="alert">×</a>
+          <i class="fa fa-coffee"></i>
+          This is an <strong>.alert</strong>. Use this to show important messages to the user.
+        </div>
+
+        <h3>Personal info</h3>
+
+        <div class="row">
+          <div class="col-md-6"><label>Name:</label> {{ data.name }}</div>
+          <div class="col-md-6"><label>Contacts:</label> {{ data.contacts }}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6"><label>Last name:</label> {{ data.last_name }}</div>
+          <div class="col-md-6"><label>Email:</label> {{ data.email }}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6"><label>Date of birth:</label> {{ data.date_of_birth }}</div>
+          <div class="col-md-6"><label>Jabber:</label> {{ data.jabber }}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6"><label>Skype:</label> {{ data.skype }}</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6"><label>Bio:</label> {{ data.bio }}</div>
+          <div class="col-md-6"><label>Other contacts:</label> {{ data.other_contacts }}</div>
+        </div>
+
+      </div>
     </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+        <a class="btn btn-lg btn-success" href="{% url "request" %}">requests</a>
+        </div>
+    </div>
+
 </div>
+
 
 {% endblock %}

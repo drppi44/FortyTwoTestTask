@@ -1,3 +1,4 @@
+import json
 from .models import MyHttpRequest
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
@@ -12,7 +13,7 @@ class TestRequestView(TestCase):
 
     def test_save_request_to_db(self):
         """
-        request must be saved in db
+        each request should be saved in db
         """
         factory = RequestFactory()
 
@@ -32,3 +33,64 @@ class TestRequestView(TestCase):
 
         for key in kwargs.keys():
             self.assertEquals(kwargs[key], getattr(_request, key))
+
+    def test_request_page_uses_right__template(self):
+        """
+        /request/ page should use request.html
+        """
+        response = self.client.get('/request/')
+
+        self.assertTemplateUsed(response, 'request.html')
+
+    def test_custom_middleware_doesnt_save_getrequests_post(self):
+        """i've decided not to save post request from javascript on
+        requests page"""
+        self.client.get('/')
+
+        _count = MyHttpRequest.objects.count()
+
+        self.client.post('/request/ajax/getrequests/')
+
+        self.assertEquals(_count, MyHttpRequest.objects.count())
+        self.assertNotEquals(_count, 0)
+
+    def test_getrequest_marks_its_objects_as_viewed(self):
+        """
+        all query_string objects returned by getrequest
+         response should be marked as_views=True
+        """
+        self.client.get('/')
+        self.client.get('/request/')
+
+        response = self.client.get('/request/ajax/getrequests/')
+        data = json.loads(response.content)
+
+        query_set_of_returned_myhttp_objects = MyHttpRequest.objects.filter(
+            id__in=(obj['pk'] for obj in data)
+        )
+
+        self.assertTrue(
+            all(obj.is_viewed for obj in query_set_of_returned_myhttp_objects)
+        )
+
+    def test_requests_number_updates(self):
+        """ requests number should updates asynchronously """
+        self.client.get('/')
+        response = self.client.get('/request/ajax/getrequestscount/')
+        self.assertEquals(response.content, '1')
+
+        self.client.get('/')
+        response = self.client.get('/request/ajax/getrequestscount/')
+        self.assertEquals(response.content, '2')
+
+    def test_requests_count_updates_on_page_reload(self):
+        """
+        :return: when /request/ page updates, last 10 myhhtprequest objects
+        sets ridden
+        """
+        self.client.get('/')
+        response = self.client.get('/request/ajax/getrequestscount/')
+        self.assertEquals(response.content, '1')
+
+        response = self.client.get('/request/')
+        self.assertEquals(response.context['requests_count'], 0)

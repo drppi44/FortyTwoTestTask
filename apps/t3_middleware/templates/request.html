@@ -1,25 +1,45 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+
 {% block title %}
-42 Coffee Cups Test Assignment
+    42 Coffee Cups Test Assignment
 {% endblock %}
 
+
 {% block extra_head %}
-<script src="{% static 'js/myjs.js' %}"></script>
+    <script src="{% static 'js/myjs.js' %}"></script>
 {% endblock %}
+
 
 {% block content %}
 
+    <div class="container">
+        <h1>({{ requests_count }}) 42 Coffee Cups Test Assignment. Midleware.</h1>
+        <hr>
+
+        <div class="row">
+
+            <h4 id="header_info"></h4>
+            <table id="example" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>URI</th>
+                        <th>time</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <a class="btn btn-lg btn-success" href="{% url "index" %}">home</a>
+            </div>
+        </div>
 
 
-<div id="mid_content">
-    <div id="container">
-    <h3 >42 Coffee Cups Test Assignment. Midleware.</h3>
-    <h4 id="header_info"></h4>
-        <table id="request_table">
-        </table>
     </div>
-</div>
 
 {% endblock %}
