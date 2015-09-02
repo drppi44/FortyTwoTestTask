@@ -28,10 +28,6 @@ def get_requests_view(request):
     """
     data = MyHttpRequest.objects.all().order_by('-time')[:10]
 
-    # for obj in data:
-    #     obj.is_viewed = True
-    #     obj.save()
-
     data = serializers.serialize('json', data)
 
     return HttpResponse(data)
