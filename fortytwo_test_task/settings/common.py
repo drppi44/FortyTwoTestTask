@@ -45,7 +45,8 @@ INSTALLED_APPS = (
     'south',
 
     'apps.hello',
-    'apps.t3_middleware'
+    'apps.t3_middleware',
+    'apps.t5_edit'
 )
 
 MIDDLEWARE_CLASSES = (

@@ -9,7 +9,6 @@ class TestRequestView(TestCase):
     include tests: save request to db, show it on page,
      update page asynchronously
     """
-    pass
 
     def test_save_request_to_db(self):
         """

@@ -4,6 +4,7 @@ from django.test import LiveServerTestCase
 from selenium import webdriver
 from apps.t3_middleware.models import MyHttpRequest
 
+
 class HomePageTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -84,4 +85,25 @@ class RequestPageTest(LiveServerTestCase):
         request_count_from_template = title_text.split(')')[0]
 
         not_viewed_request_count = MyHttpRequest.objects.filter(is_viewed=False).count()
-        self.assertEquals(int(request_count_from_template), not_viewed_request_count)    
+        self.assertEquals(int(request_count_from_template), not_viewed_request_count)
+
+
+class EditPageTest(LiveServerTestCase):
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.browser.implicitly_wait(3)
+
+    def tearDown(self):
+        self.browser.refresh()
+        self.browser.quit()
+
+    def test_login_works(self):
+        """user can see login link on main page,
+        it redirects to login page"""
+        self.browser.get(self.live_server_url)
+
+        self.browser.find_element_by_id('login_button').click()
+
+        login_form = self.browser.find_element_by_id('login_form')
+
+        self.assertTrue(login_form)
