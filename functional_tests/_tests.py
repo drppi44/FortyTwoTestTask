@@ -106,4 +106,8 @@ class EditPageTest(LiveServerTestCase):
 
         login_form = self.browser.find_element_by_id('login_form')
 
-        self.assertTrue(login_form)
+        login_form.find_element_by_id('login').send_keys('admin')
+        login_form.find_element_by_id('password').send_keys('admin')
+        login_form.submit()
+
+        self.assertIn('edit', self.browser.find_element_by_tag_name('h1').text)
