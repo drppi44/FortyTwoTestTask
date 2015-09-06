@@ -1,18 +1,20 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 
 
 def login_page(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-
-        if user and user.is_active:
-            login(request, user)
+    if request.user.is_authenticated():
             return redirect('/edit/')
+
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            login(request, form.get_user())
+            return redirect('/edit/')
+
         return redirect('/login/')
 
     form = AuthenticationForm()

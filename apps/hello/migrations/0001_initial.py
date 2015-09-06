@@ -22,6 +22,7 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'hello', ['MyData'])
 
+
     def backwards(self, orm):
         # Deleting model 'MyData'
         db.delete_table(u'hello_mydata')

@@ -10,7 +10,7 @@ class TestLoginPage(TestCase):
         self.assertTemplateUsed(response, 'login.html')
 
     def test_login_with_valid_data_works(self):
-        """ login with valid data redirects to edit page"""
+        """ login with valid data redirects to login page logged in"""
         response = self.client.post('/login/',
                                     {'username': 'admin', 'password': 'admin'})
 
