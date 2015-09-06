@@ -48,4 +48,5 @@ var show_requests = function(requests){
 
 function show_request_count(count){
     $('.container h1').html('('+count+') 42 Coffee Cups Test Assignment. Midleware.');
+    $('title').html('('+count+') 42 Coffee Cups Test Assignment')
 }
