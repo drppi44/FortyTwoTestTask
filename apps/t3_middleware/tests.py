@@ -100,3 +100,9 @@ class TestRequestView(TestCase):
         ten_records_from_db = serializers.serialize('json', data)
 
         self.assertEquals(ten_records_from_db, response.content)
+
+    def test_view_with_empty_db(self):
+        """/request/ html renders with empty reqeusts in db"""
+        response = self.client.get('/request/')
+
+        self.assertIn('Middleware', response.content)
