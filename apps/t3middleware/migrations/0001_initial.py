@@ -19,7 +19,7 @@ class Migration(SchemaMigration):
             ('query_string', self.gf('django.db.models.fields.CharField')(max_length=1000, blank=True)),
             ('is_viewed', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal(u't3_middleware', ['MyHttpRequest'])
+        db.send_create_signal(u't3middleware', ['MyHttpRequest'])
 
 
     def backwards(self, orm):
@@ -28,7 +28,7 @@ class Migration(SchemaMigration):
 
 
     models = {
-        u't3_middleware.myhttprequest': {
+        u't3middleware.myhttprequest': {
             'Meta': {'object_name': 'MyHttpRequest'},
             'host': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -41,4 +41,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['t3_middleware']
+    complete_apps = ['t3middleware']

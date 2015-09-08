@@ -7,8 +7,9 @@ from django.test.client import RequestFactory, Client
 
 
 class TestRequestView(TestCase):
-    """ Test class for t3_middleware app include tests: save request to db,
+    """ Test class for t3middleware app include tests: save request to db,
      show it on page, update page asynchronously
+
     """
 
     def test_save_request_to_db(self):
@@ -39,8 +40,7 @@ class TestRequestView(TestCase):
         self.assertTemplateUsed(response, 'request.html')
 
     def test_custom_middleware_doesnt_save_getrequests_post(self):
-        """i've decided not to save post request from javascript
-         on requests page"""
+        """ i've decided ignore  request from /request/ page"""
         self.client.get('/')
 
         _count = MyHttpRequest.objects.count()
