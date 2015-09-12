@@ -27,42 +27,6 @@
 },
 {
     "pk": 1,
-    "model": "south.migrationhistory",
-    "fields": {
-        "applied": "2015-08-27T08:56:01.413Z",
-        "app_name": "hello",
-        "migration": "0001_initial"
-    }
-},
-{
-    "pk": 2,
-    "model": "south.migrationhistory",
-    "fields": {
-        "applied": "2015-08-27T08:56:33.320Z",
-        "app_name": "hello",
-        "migration": "0002_initial"
-    }
-},
-{
-    "pk": 3,
-    "model": "south.migrationhistory",
-    "fields": {
-        "applied": "2015-08-27T08:56:53.405Z",
-        "app_name": "t3_middleware",
-        "migration": "0001_initial"
-    }
-},
-{
-    "pk": 4,
-    "model": "south.migrationhistory",
-    "fields": {
-        "applied": "2015-08-27T08:56:53.420Z",
-        "app_name": "t3_middleware",
-        "migration": "0002_initial"
-    }
-},
-{
-    "pk": 1,
     "model": "hello.mydata",
     "fields": {
         "bio": "Django developer",
