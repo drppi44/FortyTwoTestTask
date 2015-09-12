@@ -18,14 +18,6 @@
     }
 },
 {
-    "pk": "sigxiw7fjb7q7pvg12zdw9iqu3v7gx7n",
-    "model": "sessions.session",
-    "fields": {
-        "expire_date": "2015-08-03T13:47:54.306Z",
-        "session_data": "ZTJjMGJjYjAzNzk2NGJjZjJkZTdhYzZmZWIzYzgzMDIyZjg5MThjYTp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MX0="
-    }
-},
-{
     "pk": 1,
     "model": "hello.mydata",
     "fields": {
