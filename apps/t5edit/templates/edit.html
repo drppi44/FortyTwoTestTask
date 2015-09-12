@@ -1,103 +1,121 @@
 {% extends "base.html" %}
+{% load staticfiles %}
+
+
+
+{% block extra_head %}
+    <script src="{% static 'js/edit_page.js' %}"></script>
+    <script src="{% static 'js/jquery.form.min.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-
 <div class="container">
     <h1>Edit Profile</h1>
   	<hr>
 	<div class="row">
       <!-- left column -->
-      <div class="col-md-3">
-        <div class="text-center">
-          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
-          <h6>Upload a different photo...</h6>
-
-          <input type="file" class="form-control">
-        </div>
-      </div>
+{#      <div class="col-md-3">#}
+{#        <div class="text-center">#}
+{#          <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">#}
+{#          <h6>Upload a different photo...</h6>#}
+{##}
+{#          <input type="file" class="form-control">#}
+{#        </div>#}
+{#      </div>#}
 
       <!-- edit form column -->
-      <div class="col-md-9 personal-info">
-        <div class="alert alert-info alert-dismissable">
-          <a class="panel-close close" data-dismiss="alert">?</a>
+      <div class="col-md-9 col-md-offset-3 personal-info">
+        <div class="alert alert-info alert-dismissable" hidden>
+          <a class="panel-close close" data-dismiss="alert">x</a>
           <i class="fa fa-coffee"></i>
-          This is an <strong>.alert</strong>. Use this to show important messages to the user.
+          <spam>This is an <strong>.alert</strong>. Use this to show important messages to the user.</spam>
         </div>
         <h3>Personal info</h3>
 
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" role="form" id="edit-form" enctype="multipart/form-data">
+            {% csrf_token %}
           <div class="form-group">
-            <label class="col-lg-3 control-label">First name:</label>
+            <label class="col-lg-3 control-label">{{ form.avatar.label_tag }}</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="Jane">
+{#              <input class="form-control" type="text" value="Jane">#}
+                {{ form.avatar }}
+                <img src="" alt="" id="preview">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">Last name:</label>
+            <label class="col-lg-3 control-label">{{ form.name.label_tag }}</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="Bishop">
+{#              <input class="form-control" type="text" value="Jane">#}
+                {{ form.name }}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">Company:</label>
+            <label class="col-lg-3 control-label">{{ form.last_name.label_tag }}</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="">
+{#              <input class="form-control" type="text" value="Bishop">#}
+                {{ form.last_name }}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">Email:</label>
+            <label class="col-lg-3 control-label">{{ form.date_of_birth.label_tag }}</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="janesemail@gmail.com">
+{#              <input class="form-control" type="text" value="">#}
+                {{ form.date_of_birth }}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-lg-3 control-label">Time Zone:</label>
+            <label class="col-lg-3 control-label">{{ form.bio.label_tag }}</label>
             <div class="col-lg-8">
-              <div class="ui-select">
-                <select id="user_time_zone" class="form-control">
-                  <option value="Hawaii">(GMT-10:00) Hawaii</option>
-                  <option value="Alaska">(GMT-09:00) Alaska</option>
-                  <option value="Pacific Time (US &amp; Canada)">(GMT-08:00) Pacific Time (US &amp; Canada)</option>
-                  <option value="Arizona">(GMT-07:00) Arizona</option>
-                  <option value="Mountain Time (US &amp; Canada)">(GMT-07:00) Mountain Time (US &amp; Canada)</option>
-                  <option value="Central Time (US &amp; Canada)" selected="selected">(GMT-06:00) Central Time (US &amp; Canada)</option>
-                  <option value="Eastern Time (US &amp; Canada)">(GMT-05:00) Eastern Time (US &amp; Canada)</option>
-                  <option value="Indiana (East)">(GMT-05:00) Indiana (East)</option>
-                </select>
-              </div>
+{#              <input class="form-control" type="text" value="janesemail@gmail.com">#}
+                {{ form.bio }}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Username:</label>
+            <label class="col-md-3 control-label">{{ form.email.label_tag }}</label>
             <div class="col-md-8">
-              <input class="form-control" type="text" value="janeuser">
+{#              <input class="form-control" type="text" value="janeuser">#}
+                {{ form.email }}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Password:</label>
+            <label class="col-md-3 control-label">{{ form.jabber.label_tag }}</label>
             <div class="col-md-8">
-              <input class="form-control" type="password" value="11111122333">
+{#              <input class="form-control" type="password" value="11111122333">#}
+                {{ form.jabber }}
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Confirm password:</label>
+            <label class="col-md-3 control-label">{{ form.skype.label_tag }}</label>
             <div class="col-md-8">
-              <input class="form-control" type="password" value="11111122333">
+{#              <input class="form-control" type="password" value="11111122333">#}
+                {{ form.skype }}
+            </div>
+          </div>
+            <div class="form-group">
+            <label class="col-md-3 control-label">{{ form.other_contacts.label_tag }}</label>
+            <div class="col-md-8">
+{#              <input class="form-control" type="password" value="11111122333">#}
+                {{ form.other_contacts }}
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
-              <input type="button" class="btn btn-primary" value="Save Changes">
-              <span></span>
-              <input type="reset" class="btn btn-default" value="Cancel">
+              <input type="submit" class="btn btn-primary" value="Save Changes" data-loading-text="Loading...">
             </div>
           </div>
         </form>
       </div>
   </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <a class="btn btn-lg btn-success" href="{% url "index" %}">index</a>
+            <a class="btn btn-lg btn-success" href="{% url "request" %}">requests</a>
+        </div>
+    </div>
+
 </div>
 <hr>
-
 
 {% endblock %}

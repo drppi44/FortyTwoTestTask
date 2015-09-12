@@ -1,5 +1,8 @@
+from apps.hello.models import MyData
 from django.test import TestCase
 from django.contrib.auth.forms import AuthenticationForm
+from .forms import EditForm
+from apps.hello.tests import _data
 
 
 class TestLoginPage(TestCase):
@@ -48,9 +51,36 @@ class TestEditPage(TestCase):
 
         self.assertTemplateUsed(respose, 'edit.html')
 
-    def test_page_has_any_data(self):
+    def test_edit_page_has_any_data(self):
         """test page containt h1 header tag"""
         self.client.post('/login/', {'username': 'admin', 'password': 'admin'})
         response = self.client.get('/edit/')
 
         self.assertIn('edit', response.content)
+
+    def test_edit_page_context_has_edit_form(self):
+        """ /edit/ page has edit-form"""
+        self.client.post('/login/', {'username': 'admin', 'password': 'admin'})
+        response = self.client.get('/edit/')
+
+        self.assertIsInstance(response.context['form'], EditForm)
+
+    def test_edit_page_content_has_edit_form(self):
+        """ /edit/ page has edit-form"""
+        self.client.post('/login/', {'username': 'admin', 'password': 'admin'})
+        response = self.client.get('/edit/')
+
+        for key in _data.keys():
+            self.assertIn('id_'+key, response.content)
+
+        self.assertIn('edit-form', response.content)
+
+    def test_edit_post_changes_mydata(self):
+        """ /edit/ post request must change mydata if its valid"""
+        self.client.post('/login/', {'username': 'admin', 'password': 'admin'})
+
+        data = _data.copy()
+        data['name'] = 'Nigel'
+        self.client.post('/edit/', data)
+
+        self.assertEquals('Nigel', MyData.objects.first().name, data['name'])

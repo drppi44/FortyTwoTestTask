@@ -127,8 +127,22 @@ class EditPageTest(LiveServerTestCase):
 
     def test_edit_page_can_edit_data(self):
         """ edit page can edit data"""
-        self.client.post('/login/', {'username': 'admin', 'password': 'admin'})
-        self.browser.get(self.live_server_url+'/edit/')
+        self.browser.get(self.live_server_url)
 
+        self.browser.find_element_by_id('login_button').click()
 
+        login_form = self.browser.find_element_by_id('login_form')
+        login_form.find_element_by_css_selector('input#id_username').send_keys(
+            'admin')
+        login_form.find_element_by_css_selector('input#id_password').send_keys(
+            'admin')
+        login_form.submit()
 
+        self.browser.find_element_by_id('id_name').send_keys('Nigel')
+        self.browser.find_element_by_id('edit-form').submit()
+
+        self.browser.get(self.live_server_url)
+        personal_info_text = self.browser.find_element_by_class_name(
+            'col-md-9 personal-info').text
+
+        self.assertIn('Nigel', personal_info_text)
