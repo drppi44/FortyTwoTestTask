@@ -1,20 +1,19 @@
 import json
+from django.core import serializers
+from .views import get_requests
 from .models import MyHttpRequest
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
 
 
 class TestRequestView(TestCase):
-    """ Test class for t3_middleware app
-    include tests: save request to db, show it on page,
-     update page asynchronously
+    """ Test class for t3middleware app include tests: save request to db,
+     show it on page, update page asynchronously
+
     """
-    pass
 
     def test_save_request_to_db(self):
-        """
-        each request should be saved in db
-        """
+        """ each request should be saved in db """
         factory = RequestFactory()
 
         request = factory.get('/')
@@ -35,16 +34,13 @@ class TestRequestView(TestCase):
             self.assertEquals(kwargs[key], getattr(_request, key))
 
     def test_request_page_uses_right__template(self):
-        """
-        /request/ page should use request.html
-        """
+        """ /request/ page should use request.html """
         response = self.client.get('/request/')
 
         self.assertTemplateUsed(response, 'request.html')
 
     def test_custom_middleware_doesnt_save_getrequests_post(self):
-        """i've decided not to save post request from javascript on
-        requests page"""
+        """ i've decided ignore  request from /request/ page"""
         self.client.get('/')
 
         _count = MyHttpRequest.objects.count()
@@ -55,10 +51,8 @@ class TestRequestView(TestCase):
         self.assertNotEquals(_count, 0)
 
     def test_getrequest_marks_its_objects_as_viewed(self):
-        """
-        all query_string objects returned by getrequest
-         response should be marked as_views=True
-        """
+        """all query_string objects returned by getrequest response
+         should be marked as_views=True """
         self.client.get('/')
         self.client.get('/request/')
 
@@ -84,8 +78,7 @@ class TestRequestView(TestCase):
         self.assertEquals(response.content, '2')
 
     def test_requests_count_updates_on_page_reload(self):
-        """
-        :return: when /request/ page updates, last 10 myhhtprequest objects
+        """when /request/ page updates, last 10 myhhtprequest objects
         sets ridden
         """
         self.client.get('/')
@@ -94,3 +87,22 @@ class TestRequestView(TestCase):
 
         response = self.client.get('/request/')
         self.assertEquals(response.context['requests_count'], 0)
+
+    def test_reqeust_page_shows_exactly_10_last_requests(self):
+        """get_requests fn return 10 last request"""
+        request = MyHttpRequest()
+
+        for i in range(11):
+            self.client.get('/')
+
+        response = get_requests(request)
+        data = MyHttpRequest.objects.all().order_by('-time')[:10]
+        ten_records_from_db = serializers.serialize('json', data)
+
+        self.assertEquals(ten_records_from_db, response.content)
+
+    def test_view_with_empty_db(self):
+        """/request/ html renders with empty reqeusts in db"""
+        response = self.client.get('/request/')
+
+        self.assertIn('Middleware', response.content)

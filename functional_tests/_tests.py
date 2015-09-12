@@ -2,7 +2,8 @@ import time
 from apps.hello.models import MyData
 from django.test import LiveServerTestCase
 from selenium import webdriver
-from apps.t3_middleware.models import MyHttpRequest
+from apps.t3middleware.models import MyHttpRequest
+
 
 class HomePageTest(LiveServerTestCase):
     def setUp(self):
@@ -20,7 +21,8 @@ class HomePageTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         my_data = MyData.objects.first()
-        table_text = self.browser.find_element_by_css_selector('.personal-info').text
+        table_text = self.browser.find_element_by_css_selector(
+            '.personal-info').text
 
         self.assertIn(my_data.name, table_text)
         self.assertIn(my_data.last_name, table_text)
@@ -56,7 +58,7 @@ class RequestPageTest(LiveServerTestCase):
         """
         when new httprequest comes, request page update its table
         """
-        self.browser.get(self.live_server_url+'/request/')
+        self.browser.get(self.live_server_url + '/request/')
 
         time.sleep(2)
 
@@ -76,12 +78,71 @@ class RequestPageTest(LiveServerTestCase):
 
     def test_requests_page_title_updates_request_count(self):
         """title on requests page should contain not viewed requests number"""
-        self.browser.get(self.live_server_url+'/request/')
+        self.browser.get(self.live_server_url + '/request/')
         time.sleep(2)
 
         title_text = self.browser.find_element_by_css_selector('h1').text
         title_text = title_text.split('(')[1]
         request_count_from_template = title_text.split(')')[0]
 
-        not_viewed_request_count = MyHttpRequest.objects.filter(is_viewed=False).count()
-        self.assertEquals(int(request_count_from_template), not_viewed_request_count)    
+        not_viewed_request_count = MyHttpRequest.objects.filter(
+            is_viewed=False).count()
+        self.assertEquals(int(request_count_from_template),
+                          not_viewed_request_count)
+
+
+class LoginPageTest(LiveServerTestCase):
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.browser.implicitly_wait(3)
+
+    def tearDown(self):
+        self.browser.refresh()
+        self.browser.quit()
+
+    def test_login_works(self):
+        """user can see login link on main page, it redirects to login page"""
+        self.browser.get(self.live_server_url)
+
+        self.browser.find_element_by_id('login_button').click()
+
+        login_form = self.browser.find_element_by_id('login_form')
+        login_form.find_element_by_css_selector('input#id_username').send_keys(
+            'admin')
+        login_form.find_element_by_css_selector('input#id_password').send_keys(
+            'admin')
+        login_form.submit()
+
+        self.assertIn('Edit', self.browser.find_element_by_tag_name('h1').text)
+
+
+class EditPageTest(LiveServerTestCase):
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.browser.implicitly_wait(3)
+
+    def tearDown(self):
+        self.browser.refresh()
+        self.browser.quit()
+
+    def test_edit_page_can_edit_data(self):
+        """ edit page can edit data"""
+        self.browser.get(self.live_server_url)
+
+        self.browser.find_element_by_id('login_button').click()
+
+        login_form = self.browser.find_element_by_id('login_form')
+        login_form.find_element_by_css_selector('input#id_username').send_keys(
+            'admin')
+        login_form.find_element_by_css_selector('input#id_password').send_keys(
+            'admin')
+        login_form.submit()
+
+        self.browser.find_element_by_id('id_name').send_keys('Nigel')
+        self.browser.find_element_by_id('edit-form').submit()
+
+        self.browser.get(self.live_server_url)
+        personal_info_text = self.browser.find_element_by_class_name(
+            'col-md-9 personal-info').text
+
+        self.assertIn('Nigel', personal_info_text)

@@ -10,6 +10,8 @@ class MyData(models.Model):
     jabber = models.CharField(max_length=255, blank=True)
     skype = models.CharField(max_length=255, blank=True)
     other_contacts = models.TextField(blank=True)
+    avatar = models.ImageField(blank=True, upload_to='avatar', max_length=255,
+                               default='')
 
     def __unicode__(self):
         return unicode(self.name)

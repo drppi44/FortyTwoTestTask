@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         # Adding model 'MyHttpRequest'
-        db.create_table(u't3_middleware_myhttprequest', (
+        db.create_table(u't3middleware_myhttprequest', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('host', self.gf('django.db.models.fields.CharField')(max_length=1000)),
@@ -19,16 +19,16 @@ class Migration(SchemaMigration):
             ('query_string', self.gf('django.db.models.fields.CharField')(max_length=1000, blank=True)),
             ('is_viewed', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal(u't3_middleware', ['MyHttpRequest'])
+        db.send_create_signal(u't3middleware', ['MyHttpRequest'])
 
 
     def backwards(self, orm):
         # Deleting model 'MyHttpRequest'
-        db.delete_table(u't3_middleware_myhttprequest')
+        db.delete_table(u't3middleware_myhttprequest')
 
 
     models = {
-        u't3_middleware.myhttprequest': {
+        u't3middleware.myhttprequest': {
             'Meta': {'object_name': 'MyHttpRequest'},
             'host': ('django.db.models.fields.CharField', [], {'max_length': '1000'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -41,4 +41,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['t3_middleware']
+    complete_apps = ['t3middleware']
