@@ -1,34 +1,35 @@
 [
 {
-    "pk": 1,
-    "model": "auth.user",
-    "fields": {
-        "username": "admin",
-        "first_name": "",
-        "last_name": "",
-        "is_active": true,
-        "is_superuser": true,
-        "is_staff": true,
-        "last_login": "2015-07-20T13:47:54.299Z",
-        "groups": [],
-        "user_permissions": [],
-        "password": "pbkdf2_sha256$12000$TPSYfJKbt5zm$9C4XhXastYo+E7nDvjdhIQXLQetanBaoqwNFOflHzCs=",
-        "email": "admin@gmail.com",
-        "date_joined": "2015-07-20T13:46:53.897Z"
-    }
+  "pk": 1,
+  "model": "hello.mydata",
+  "fields": {
+    "bio": "Django developer",
+    "last_name": "Shevchenko",
+    "name": "Eugene",
+    "other_contacts": "",
+    "date_of_birth": "1993-08-17",
+    "avatar": "",
+    "skype": "drppi44",
+    "jabber": "drppi44@jabber.ru",
+    "email": "multinigel@gmail.com"
+  }
 },
 {
-    "pk": 1,
-    "model": "hello.mydata",
-    "fields": {
-        "bio": "Django developer",
-        "last_name": "Shevchenko",
-        "name": "Eugene",
-        "other_contacts": "",
-        "date_of_birth": "1993-08-17",
-        "skype": "drppi44",
-        "jabber": "drppi44@jabber.ru",
-        "email": "multinigel@gmail.com"
-    }
+  "pk": 1,
+  "model": "auth.user",
+  "fields": {
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "is_active": true,
+    "is_superuser": true,
+    "is_staff": true,
+    "last_login": "2015-07-20T13:47:54.299Z",
+    "groups": [],
+    "user_permissions": [],
+    "password": "pbkdf2_sha256$12000$TPSYfJKbt5zm$9C4XhXastYo+E7nDvjdhIQXLQetanBaoqwNFOflHzCs=",
+    "email": "admin@gmail.com",
+    "date_joined": "2015-07-20T13:46:53.897Z"
+  }
 }
 ]
