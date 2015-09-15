@@ -16,6 +16,7 @@ _data = {
 
 class HomeViewTest(TestCase):
     """ ticket#1 test: home page with bio """
+    fixtures = ['my_fixture.json']
 
     def test_initial_data_for_admin_load(self):
         """ admin-admin exits in db """

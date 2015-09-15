@@ -6,6 +6,8 @@ from apps.hello.tests import _data
 
 
 class TestLoginPage(TestCase):
+    fixtures = ['my_fixture.json']
+
     def test_login_page_returns_correct_html(self):
         """ login page should use login.html"""
         response = self.client.get('/login/')
@@ -44,6 +46,8 @@ class TestLoginPage(TestCase):
 
 
 class TestEditPage(TestCase):
+    fixtures = ['my_fixture.json']
+
     def test_edit_page_uses_correct_html(self):
         """/edit/ url must use edit.html"""
         self.client.post('/login/', {'username': 'admin', 'password': 'admin'})
