@@ -1,28 +1,36 @@
 # -*- coding: utf-8 -*-
 from south.utils import datetime_utils as datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
+from django.core.management import call_command
 
 
-class Migration(SchemaMigration):
+def load_fixture(file_name, orm):
+    original_get_model = models.get_model
+
+    def get_model_southern_style(*args):
+        try:
+            return orm['.'.join(args)]
+        except:
+            return original_get_model(*args)
+
+    models.get_model = get_model_southern_style
+
+    call_command('loaddata', file_name)
+
+    models.get_model = original_get_model
+
+
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        # Adding field 'MyData.avatar'
-        db.add_column(u'hello_mydata', 'avatar',
-                      self.gf('django.db.models.fields.files.ImageField')(default='', max_length=255, blank=True),
-                      keep_default=False)
-
-
-    def backwards(self, orm):
-        # Deleting field 'MyData.avatar'
-        db.delete_column(u'hello_mydata', 'avatar')
-
+        load_fixture('my_fixture.json', orm)
 
     models = {
         u'hello.mydata': {
             'Meta': {'object_name': 'MyData'},
-            'avatar': ('django.db.models.fields.files.ImageField', [], {'default': "''", 'max_length': '255', 'blank': 'True'}),
+            'avatar': (u'django_resized.forms.ResizedImageField', [], {'default': "''", 'max_length': '255', 'blank': 'True'}),
             'bio': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'date_of_birth': ('django.db.models.fields.DateField', [], {'blank': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
@@ -36,3 +44,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['hello']
+    symmetrical = True

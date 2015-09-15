@@ -19,6 +19,7 @@ class Migration(SchemaMigration):
             ('jabber', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('skype', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
             ('other_contacts', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('avatar', self.gf(u'django_resized.forms.ResizedImageField')(default='', max_length=255, blank=True)),
         ))
         db.send_create_signal(u'hello', ['MyData'])
 
@@ -31,6 +32,7 @@ class Migration(SchemaMigration):
     models = {
         u'hello.mydata': {
             'Meta': {'object_name': 'MyData'},
+            'avatar': (u'django_resized.forms.ResizedImageField', [], {'default': "''", 'max_length': '255', 'blank': 'True'}),
             'bio': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'date_of_birth': ('django.db.models.fields.DateField', [], {'blank': 'True'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
