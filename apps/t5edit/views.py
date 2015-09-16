@@ -34,6 +34,7 @@ def edit_page(request):
         if form.is_valid():
             if request.FILES:
                 instance.avatar = request.FILES['avatar']
+
             form.save()
             return HttpResponse(json.dumps('ok'))
 

@@ -7,6 +7,7 @@ from django.test.client import RequestFactory, Client
 
 
 class TestRequestView(TestCase):
+    fixtures = ['my_fixture.json']
     """ Test class for t3middleware app include tests: save request to db,
      show it on page, update page asynchronously
 
