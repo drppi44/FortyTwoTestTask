@@ -2,6 +2,7 @@ from apps.hello.models import MyData
 from django.contrib.auth.models import User
 from django.test import TestCase
 from datetime import date
+from .templatetags.my_tag import url_to_edit_object
 
 _data = {
     'name': 'Eugene',
@@ -71,3 +72,22 @@ class HomeViewTest(TestCase):
             if isinstance(value, date):
                 value = value.strftime("%b. %d, %Y")
             self.assertIn(value, response.content)
+
+
+class MyTagTest(TestCase):
+    """ ticket#8 test: link to edit object in admin """
+    fixtures = ['my_fixture.json']
+
+    def test_link_to_render_object_works(self):
+        """ fn returns url to edit object"""
+        link = url_to_edit_object(User.objects.first())
+
+        self.assertEquals(r'/admin/auth/user/1/', link)
+
+    def test_link_to_render_object_valid_renders_in_html(self):
+        """ html has link to edit object"""
+        self.client.login(username='admin', password='admin')
+
+        response = self.client.get('/')
+
+        self.assertIn(r'/admin/auth/user/1/', response.content)
