@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'apps.t5edit'
 )
 
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

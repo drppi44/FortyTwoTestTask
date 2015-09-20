@@ -1,6 +1,4 @@
-from datetime import datetime
 from django.core.management.base import BaseCommand
-from fortytwo_test_task.settings import BASE_DIR
 from django.db.models import get_models
 
 
@@ -10,7 +8,7 @@ def get_models_info():
 
     for model in get_models():
         models_info.append(
-            '[%s] -  %d objects' % (
+            '[%s] - %d objects' % (
                 model.__name__, model._default_manager.count())
         )
     return models_info
