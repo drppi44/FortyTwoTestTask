@@ -45,8 +45,6 @@ INSTALLED_APPS = (
     'south',
 
     'apps.hello',
-    'apps.t3middleware',
-    'apps.t5edit'
 )
 
 
@@ -56,8 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.t3middleware.middleware.CustomMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 )
 
 ROOT_URLCONF = 'fortytwo_test_task.urls'

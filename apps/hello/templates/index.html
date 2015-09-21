@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load my_tag %}
 {% block content %}
 
 <div class="container">
@@ -9,11 +8,7 @@
       <!-- left column -->
       <div class="col-md-3">
         <div class="text-center">
-            {% if data.avatar %}
-            <img src="{{ data.avatar.url }}" class="avatar img-circle" alt="avatar">
-            {% else %}
             <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
-            {% endif %}
           <h6>Photo</h6>
         </div>
       </div>
@@ -32,10 +27,7 @@
         <div class="row">
           <div class="col-md-6"><label><h3>Personal info</h3></label></div>
           <div class="col-md-6">
-            <a href="{% url "login" %}" id="login_button" class="btn btn-lg">Login</a>
-            {% if user.is_authenticated %}
-            <a href="{% url_to_edit_object user %}" class="btn btn-lg">Edit</a>
-            {% endif %}
+
           </div>
         </div>
 
@@ -70,7 +62,7 @@
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-        <a class="btn btn-lg btn-success" href="{% url "request" %}">requests</a>
+
         </div>
     </div>
 
