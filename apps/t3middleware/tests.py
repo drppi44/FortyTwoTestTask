@@ -107,3 +107,20 @@ class TestRequestView(TestCase):
         response = self.client.get('/request/')
 
         self.assertIn('Middleware', response.content)
+
+
+class TestPriority(TestCase):
+    """ testing  order by priority field"""
+    fixtures = ['my_fixture.json']
+
+    def test_(self):
+        """ test entities with higher priority goes earlier """
+        self.client.get('/')
+        self.client.get('/')
+        self.client.get('/')
+
+        my_request = MyHttpRequest.objects.all()[1]
+        my_request.priority = 1
+        my_request.save()
+
+        self.assertEquals(MyHttpRequest.objects.first(), my_request)

@@ -10,5 +10,11 @@ class MyHttpRequest(models.Model):
     query_string = models.CharField(max_length=1000, blank=True)
     is_viewed = models.BooleanField(default=False)
 
+    # ticket priority field
+    priority = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['-priority', '-time']
+
     def __unicode__(self):
         return unicode(self.uri)
