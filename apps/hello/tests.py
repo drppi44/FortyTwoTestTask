@@ -1,6 +1,7 @@
 from apps.hello.models import MyData
 from django.contrib.auth.models import User
 from django.core import management
+from django.core.urlresolvers import reverse
 from django.db.models import get_models
 from django.test import TestCase
 from datetime import date
@@ -40,13 +41,13 @@ class HomeViewTest(TestCase):
     def test_home_view_template_uses_right_template(self):
         """ index_view using right template """
 
-        response = self.client.get('/')
+        response = self.client.get(reverse('index'))
 
         self.assertTemplateUsed(response, 'index.html')
 
     def test_data_in_home_view_equals_data_io_db(self):
         """ data send to template is valid """
-        response = self.client.get('/')
+        response = self.client.get(reverse('index'))
         data = MyData.objects.first()
 
         self.assertEquals(response.context['data'], data)
@@ -59,7 +60,7 @@ class HomeViewTest(TestCase):
 
     def test_home_html_renders_with_data(self):
         """rendered html page should contain mydata"""
-        response = self.client.get('/')
+        response = self.client.get(reverse('index'))
 
         for value in _data.values():
             if isinstance(value, date):
@@ -81,7 +82,7 @@ class MyTagTest(TestCase):
         """ html has link to edit object"""
         self.client.login(username='admin', password='admin')
 
-        response = self.client.get('/')
+        response = self.client.get(reverse('index'))
 
         self.assertIn(r'/admin/auth/user/1/', response.content)
 
