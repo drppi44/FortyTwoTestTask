@@ -6,7 +6,7 @@ from django.shortcuts import render_to_response
 
 
 def request_view(request, template='request.html'):
-    data = MyHttpRequest.objects.all().order_by('-time')[:10]
+    data = MyHttpRequest.objects.all()
 
     for obj in data:
         obj.is_viewed = True

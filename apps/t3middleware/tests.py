@@ -81,7 +81,7 @@ class TestRequestView(TestCase):
         self.assertEquals(response.content, '2')
 
     def test_requests_count_updates_on_page_reload(self):
-        """when /request/ page updates, last 10 myhhtprequest objects
+        """when /request/ page updates - all myhhtprequest objects
         sets ridden
         """
         self.client.get(reverse('index'))
