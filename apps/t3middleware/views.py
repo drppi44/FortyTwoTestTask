@@ -6,15 +6,9 @@ from django.shortcuts import render_to_response
 
 
 def request_view(request, template='request.html'):
-    data = MyHttpRequest.objects.all()
+    MyHttpRequest.objects.filter(is_viewed=False).update(is_viewed=True)
 
-    for obj in data:
-        obj.is_viewed = True
-        obj.save()
-
-    requests_count = MyHttpRequest.objects.filter(is_viewed=False).count()
-
-    return render_to_response(template, {'requests_count': requests_count})
+    return render_to_response(template, {'requests_count': 0})
 
 
 def get_requests(request):

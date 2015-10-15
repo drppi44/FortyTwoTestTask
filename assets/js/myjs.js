@@ -35,7 +35,7 @@ var show_requests = function(requests){
 
     for (var i in requests){
         var request = requests[i];
-        table_data += '<tr><td>'+request.fields.uri+'</td><td>'+request.fields.time+'</td></tr>';
+        table_data += '<tr><td>'+request.fields.uri+'</td><td>'+moment(request.fields.time).format('YYYY-MM-DD h:mm:ss')+'</td></tr>';
     }
 
     var table=$('table#example');
