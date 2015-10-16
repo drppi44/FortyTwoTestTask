@@ -8,16 +8,14 @@
 
 
 {% block extra_head %}
-    <script src="{% static 'js/moment.js' %}"></script>
     <script src="{% static 'js/core.js' %}"></script>
-
 {% endblock %}
 
 
 {% block content %}
 
     <div class="container">
-        <h1>({{ requests_count }}) 42 Coffee Cups Test Assignment. Middleware.</h1>
+        <h1>(0) 42 Coffee Cups Test Assignment. Middleware.</h1>
         <hr>
 
         <div class="row">
@@ -30,6 +28,7 @@
                         <th>time</th>
                     </tr>
                 </thead>
+                <tbody></tbody>
             </table>
         </div>
 

@@ -1,0 +1,6 @@
+{% for request in requests %}
+    <tr>
+        <td>{{ request.uri }}</td>
+        <td>{{ request.time|date:"Y-m-d H:m" }}</td>
+    </tr>
+{% endfor %}
