@@ -1,4 +1,5 @@
 from apps.hello.models import MyData
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import EditForm
@@ -8,18 +9,19 @@ from apps.hello.tests import _data
 class TestLoginPage(TestCase):
     fixtures = ['my_fixture.json']
 
-    def test_login_page_returns_correct_html(self):
+    def test_login_page_returns_correct_html_status_code(self):
         """ login page should use login.html"""
-        response = self.client.get('/login/')
+        response = self.client.get(reverse('login'))
 
-        self.assertTemplateUsed(response, 'login.html')
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertEquals(response.status_code, 200)
 
     def test_login_with_valid_data_works(self):
         """ login with valid data redirects to login page logged in"""
         response = self.client.post('/login/',
                                     {'username': 'admin', 'password': 'admin'})
 
-        self.assertRedirects(response, '/edit/')
+        self.assertRedirects(response, reverse('index'))
 
     def test_login_page_data_has_auth_form(self):
         """ auth.form must be in page context"""
@@ -42,7 +44,7 @@ class TestLoginPage(TestCase):
         """" home page must contain login link"""
         response = self.client.get('/')
 
-        self.assertIn('login_button', response.content)
+        self.assertIn('login', response.content)
 
 
 class TestEditPage(TestCase):

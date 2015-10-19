@@ -3,73 +3,69 @@
 {% block content %}
 
 <div class="container">
+
     <h1>42 Coffee Cups Test Assignment</h1>
     <hr>
-    <div class="row">
-      <!-- left column -->
-      <div class="col-md-3">
-        <div class="text-center">
-            {% if data.avatar %}
-            <img src="{{ data.avatar.url }}" class="avatar img-circle" alt="avatar">
+
+    <div class="col-md-9 col-md-offset-2 personal-info">
+
+        <div class="row">
+            <div class="col-md-6"><label><h3>Personal info</h3></label></div>
+
+            {% if user.is_authenticated %}
+             <div class="col-md-6">
+                 <a href="{% url 'edit' %}">Edit</a>
+                 <a href="{% url 'logout' %}">Logout</a>
+             </div>
             {% else %}
-            <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                <a href="{% url 'login' %}">Login</a>
             {% endif %}
-          <h6>Photo</h6>
-        </div>
-      </div>
-
-      <!-- edit form column -->
-      <div class="col-md-9 personal-info">
-
-        <div class="alert alert-info alert-dismissable" hidden>
-          <a class="panel-close close" data-dismiss="alert">×</a>
-          <i class="fa fa-coffee"></i>
-          This is an <strong>.alert</strong>. Use this to show important messages to the user.
-        </div>
-
-
-
-        <div class="row">
-          <div class="col-md-6"><label><h3>Personal info</h3></label></div>
-          <div class="col-md-6"><a href="{% url "login" %}" id="login_button" class="btn btn-lg">Login</a></div>
         </div>
 
         <div class="row">
-          <div class="col-md-6"><label>Name:</label>{{ data.name }}</div>
-          <div class="col-md-6"><label>Contacts:</label>{{ data.contacts }}</div>
+          <div class="col-md-6">{{ data.name }}</div>
+          <div class="col-md-6"><label>Contacts</label></div>
         </div>
 
         <div class="row">
-          <div class="col-md-6"><label>Last name:</label>{{ data.last_name }}</div>
+          <div class="col-md-6">{{ data.last_name }}</div>
           <div class="col-md-6"><label>Email:</label>{{ data.email }}</div>
         </div>
 
         <div class="row">
-          <div class="col-md-6"><label>Date of birth:</label>{{ data.date_of_birth }}</div>
-          <div class="col-md-6"><label>Jabber:</label>{{ data.jabber }}</div>
+          <div class="col-md-6">{{ data.date_of_birth }}</div>
+          <div class="col-md-6"><label >Jabber:</label>{{ data.jabber }}</div>
         </div>
 
         <div class="row">
-          <div class="col-md-6"><label>Skype:</label>{{ data.skype }}</div>
+            <div class="col-md-6">
+                <label for="">Photo:</label><br>
+                {% if data.avatar %}
+                    <img src="{{ data.avatar.url }}"  alt="avatar">
+                {% else %}
+                    <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
+                {% endif %}
+            </div>
+            <div class="col-md-6"><label>Skype:</label>{{ data.skype }}</div>
         </div>
 
         <div class="row">
-          <div class="col-md-6"><label>Bio:</label>{{ data.bio }}</div>
-          <div class="col-md-6"><label>Other contacts:</label> {{ data.other_contacts }}</div>
+          <div class="col-md-6 col-md-offset-6"><label>Other contacts:</label><br>{{ data.other_contacts|linebreaks }}</div>
         </div>
 
-      </div>
+        <div class="row">
+          <div class="col-md-6 col-md-offset-6"><label>Bio:</label> <br>{{ data.bio }}</div>
+        </div>
+
     </div>
 
     <hr>
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-        <a class="btn btn-lg btn-success" href="{% url "request" %}">requests</a>
+        <a  href="{% url "request" %}">requests</a>
         </div>
     </div>
-
 </div>
-
 
 {% endblock %}

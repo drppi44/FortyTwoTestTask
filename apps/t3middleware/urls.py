@@ -7,7 +7,6 @@ urlpatterns = patterns(
     url(r'^$', request_view, name='request'),
 
     # ajax
-    url(r'ajax/getrequests/$', 'apps.t3middleware.views.get_requests'),
-    url(r'ajax/getrequestscount/$',
-        'apps.t3middleware.views.get_requests_count'),
+    url(r'ajax/getrequests/$', 'apps.t3middleware.views.get_requests',
+        name='getrequests'),
 )

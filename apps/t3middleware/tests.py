@@ -1,26 +1,24 @@
 import json
-from django.core import serializers
-from .views import get_requests
+from django.core.urlresolvers import reverse
 from .models import MyHttpRequest
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
 
 
 class TestRequestView(TestCase):
-    fixtures = ['my_fixture.json']
     """ Test class for t3middleware app include tests: save request to db,
      show it on page, update page asynchronously
-
     """
+    fixtures = ['my_fixture.json']
 
     def test_save_request_to_db(self):
         """ each request should be saved in db """
         factory = RequestFactory()
 
-        request = factory.get('/')
+        request = factory.get(reverse('index'))
 
         client = Client()
-        client.get('/')
+        client.get(reverse('index'))
 
         _request = MyHttpRequest.objects.first()
         kwargs = {
@@ -36,74 +34,52 @@ class TestRequestView(TestCase):
 
     def test_request_page_uses_right__template(self):
         """ /request/ page should use request.html """
-        response = self.client.get('/request/')
+        response = self.client.get(reverse('request'))
 
         self.assertTemplateUsed(response, 'request.html')
 
     def test_custom_middleware_doesnt_save_getrequests_post(self):
         """ i've decided ignore  request from /request/ page"""
-        self.client.get('/')
+        self.client.get(reverse('index'))
 
         _count = MyHttpRequest.objects.count()
 
-        self.client.post('/request/ajax/getrequests/')
+        self.client.post(reverse('getrequests'))
 
         self.assertEquals(_count, MyHttpRequest.objects.count())
         self.assertNotEquals(_count, 0)
 
-    def test_getrequest_marks_its_objects_as_viewed(self):
-        """all query_string objects returned by getrequest response
-         should be marked as_views=True """
-        self.client.get('/')
-        self.client.get('/request/')
-
-        response = self.client.get('/request/ajax/getrequests/')
-        data = json.loads(response.content)
-
-        query_set_of_returned_myhttp_objects = MyHttpRequest.objects.filter(
-            id__in=(obj['pk'] for obj in data)
-        )
-
-        self.assertTrue(
-            all(obj.is_viewed for obj in query_set_of_returned_myhttp_objects)
-        )
-
-    def test_requests_number_updates(self):
+    def test_get_requests_retuns_not_viewed_request_number(self):
         """ requests number should updates asynchronously """
-        self.client.get('/')
-        response = self.client.get('/request/ajax/getrequestscount/')
-        self.assertEquals(response.content, '1')
+        self.client.get(reverse('index'))
+        response = self.client.get(reverse('getrequests'))
+        data = json.loads(response.content)
+        self.assertEquals(data['count'], 1)
 
-        self.client.get('/')
-        response = self.client.get('/request/ajax/getrequestscount/')
-        self.assertEquals(response.content, '2')
+        self.client.get(reverse('index'))
+        response = self.client.get(reverse('getrequests'))
+        data = json.loads(response.content)
+        self.assertEquals(data['count'], 2)
 
     def test_requests_count_updates_on_page_reload(self):
-        """when /request/ page updates, last 10 myhhtprequest objects
-        sets ridden
+        """when /request/ page updates - all myhhtprequest objects sets ridden
         """
-        self.client.get('/')
-        response = self.client.get('/request/ajax/getrequestscount/')
-        self.assertEquals(response.content, '1')
+        self.client.get(reverse('index'))
+        response = self.client.get(reverse('getrequests'))
+        self.assertEquals(json.loads(response.content)['count'], 1)
 
-        response = self.client.get('/request/')
-        self.assertEquals(response.context['requests_count'], 0)
+        self.client.get(reverse('request'))
+        response = self.client.get(reverse('getrequests'))
+        self.assertEquals(json.loads(response.content)['count'], 0)
 
     def test_reqeust_page_shows_exactly_10_last_requests(self):
-        """get_requests fn return 10 last request"""
-        request = MyHttpRequest()
+        """get_requests fn return 10 last requests"""
+        self.client.get(reverse('request'))
+        for i in range(9):
+            self.client.get(reverse('index'))
 
-        for i in range(11):
-            self.client.get('/')
-
-        response = get_requests(request)
-        data = MyHttpRequest.objects.all().order_by('-time')[:10]
-        ten_records_from_db = serializers.serialize('json', data)
-
-        self.assertEquals(ten_records_from_db, response.content)
-
-    def test_view_with_empty_db(self):
-        """/request/ html renders with empty reqeusts in db"""
-        response = self.client.get('/request/')
-
-        self.assertIn('Middleware', response.content)
+        response = self.client.get(reverse('getrequests'))
+        requests_string = json.loads(response.content)['text']
+        requests = MyHttpRequest.objects.all().order_by('-time')[:10]
+        for request in requests:
+            self.assertIn(request.uri, requests_string)

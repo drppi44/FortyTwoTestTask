@@ -1,7 +1,7 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from .models import MyData
 
 
 def index_view(request, template='index.html'):
     data = MyData.objects.first()
-    return render_to_response(template, {'data': data})
+    return render(request, template, {'data': data})

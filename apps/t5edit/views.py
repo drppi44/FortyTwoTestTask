@@ -1,28 +1,9 @@
 import json
 from apps.hello.models import MyData
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from .forms import EditForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from django.contrib.auth.forms import AuthenticationForm
-
-
-def login_page(request):
-    if request.user.is_authenticated():
-        return redirect('/edit/')
-
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-
-        if form.is_valid():
-            login(request, form.get_user())
-            return redirect('/edit/')
-
-        return redirect('/login/')
-
-    form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+from django.shortcuts import render
 
 
 @login_required(login_url='/login/')
@@ -36,7 +17,11 @@ def edit_page(request):
                 instance.avatar = request.FILES['avatar']
 
             form.save()
-            return HttpResponse(json.dumps('ok'))
+            return HttpResponse(json.dumps(dict(success=True)),
+                                content_type='application/json')
+        return HttpResponseBadRequest(
+            json.dumps(dict(success=True, err_msg=form.errors)),
+            content_type='application/json')
 
     form = EditForm(instance=MyData.objects.first())
     return render(request, 'edit.html', {'form': form})
