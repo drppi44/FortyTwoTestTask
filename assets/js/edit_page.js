@@ -17,19 +17,31 @@ $(document).ready(function() {
  
 // pre-submit callback 
 function preSubmit(formData, jqForm, options) {
-
-    $('[type=submit]').button('loading');
-    $('form :input').attr('disabled', true);
+    //$('[type=submit]').button('loading');
+    //$('form :input').attr('disabled', true);
     return true;
 } 
- 
+
+// show errors
+function show_erros(err_msg){
+    var errors = [];
+    for (var key in err_msg)
+        for (var error in err_msg[key])
+            errors.push(err_msg[key][error])
+    $('.alert-danger').show().find('span').html(errors)
+}
+
 // post-submit callback 
 function showResponse(responseText, statusText, xhr, $form)  {
-    console.log(responseText);
-    setTimeout(function () {
-        $('[type=submit]').button('reset');
-        $('form :input').attr('disabled', false);
-    }, 1000);
+    if (responseText.success == true)
+        $('.alert-info').show();
+    else
+        show_erros(responseText.responseJSON.err_msg);
+
+    //setTimeout(function () {
+    //    $('[type=submit]').button('reset');
+    //    $('form :input').attr('disabled', false);
+    //}, 1000);
 }
 
 // avatar preview ===================================
@@ -47,6 +59,5 @@ function readURL(input) {
 }
 $(document).on('change', '#id_avatar', function(){
     readURL(this);
-    console.log('dasda');
 });
 //===================================================

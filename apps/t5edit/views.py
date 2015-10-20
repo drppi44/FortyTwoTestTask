@@ -8,7 +8,7 @@ from django.shortcuts import render
 
 @login_required(login_url='/login/')
 def edit_page(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
         instance = MyData.objects.first()
         form = EditForm(request.POST, request.FILES, instance=instance)
 
@@ -20,7 +20,7 @@ def edit_page(request):
             return HttpResponse(json.dumps(dict(success=True)),
                                 content_type='application/json')
         return HttpResponseBadRequest(
-            json.dumps(dict(success=True, err_msg=form.errors)),
+            json.dumps(dict(success=False, err_msg=form.errors)),
             content_type='application/json')
 
     form = EditForm(instance=MyData.objects.first())
