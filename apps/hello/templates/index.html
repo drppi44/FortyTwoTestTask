@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load my_tag %}
 
 {% block content %}
 
@@ -15,6 +16,7 @@
             {% if user.is_authenticated %}
              <div class="col-md-6">
                  <a href="{% url 'edit' %}">Edit</a>
+                 <a href="{% url_to_edit_object user %}">(admin)</a>
                  <a href="{% url 'logout' %}">Logout</a>
              </div>
             {% else %}
