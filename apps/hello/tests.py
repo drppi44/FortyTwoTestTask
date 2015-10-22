@@ -1,7 +1,8 @@
 import StringIO
+from apps.t3middleware.models import MyHttpRequest
 from django.core import management
 from django.db.models import get_models
-from .models import MyData
+from .models import MyData, ModelSignal
 from .templatetags.my_tag import url_to_edit_object
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -112,3 +113,37 @@ class CommandTest(TestCase):
             self.assertIn(
                 '[%s] - %d' % (model.__name__, model._default_manager.count()),
                 out.getvalue())
+
+
+class ModelSignalTest(TestCase):
+    fixtures = ['my_fixture.json']
+
+    def test_signal_edit_works(self):
+        """editing any model saves in db"""
+        profile = MyData.objects.first()
+        profile.name = 'John'
+        profile.save()
+
+        entity = ModelSignal.objects.last()
+
+        self.assertEquals(entity.model, MyData.__name__)
+        self.assertEquals(entity.action, 'editing')
+
+    def test_signal_create_works(self):
+        """creating any model saves in db"""
+        User.objects.create(username='asdasd', password='asdasd')
+
+        entity = ModelSignal.objects.last()
+
+        self.assertEquals(entity.model, User.__name__)
+        self.assertEquals(entity.action, 'creation')
+
+    def test_signal_delete_works(self):
+        """deleting any model saves in db"""
+        self.client.get(reverse('index'))
+        MyHttpRequest.objects.last().delete()
+
+        entity = ModelSignal.objects.last()
+
+        self.assertEquals(entity.model, MyHttpRequest.__name__)
+        self.assertEquals(entity.action, 'deletion')
