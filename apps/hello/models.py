@@ -30,7 +30,7 @@ class MyData(models.Model):
 class ModelSignal(models.Model):
     model = models.CharField(max_length=255)
     action = models.CharField(max_length=255)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return unicode('[%s] - %s' % (self.model, self.action))
@@ -53,13 +53,12 @@ def disable_for_loaddata(signal_handler):
 @receiver(post_save)
 @disable_for_loaddata
 def save_signal(sender, instance, created, **kwargs):
-    date = datetime.now()
-    if not isinstance(instance, ModelSignal):
-        ModelSignal.objects.create(
-            model=instance.__class__.__name__,
-            action='creation' if created else 'editing',
-            date=date
-        )
+    if isinstance(instance, ModelSignal):
+        return
+    ModelSignal.objects.create(
+        model=instance.__class__.__name__,
+        action='creation' if created else 'editing',
+    )
 
 
 @receiver(pre_delete)
