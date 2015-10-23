@@ -12,3 +12,9 @@ class MyHttpRequest(models.Model):
 
     def __unicode__(self):
         return unicode(self.uri)
+
+    # ticket priority field
+    priority = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['-priority', '-time']

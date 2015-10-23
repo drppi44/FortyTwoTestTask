@@ -83,3 +83,20 @@ class TestRequestView(TestCase):
         requests = MyHttpRequest.objects.all().order_by('-time')[:10]
         for request in requests:
             self.assertIn(request.uri, requests_string)
+
+
+class TestPriority(TestCase):
+    """ testing  order by priority field"""
+    fixtures = ['my_fixture.json']
+
+    def test_(self):
+        """ test entities with higher priority goes earlier """
+        self.client.get(reverse('index'))
+        self.client.get(reverse('index'))
+        self.client.get(reverse('index'))
+
+        my_request = MyHttpRequest.objects.all()[1]
+        my_request.priority = 1
+        my_request.save()
+
+        self.assertEquals(MyHttpRequest.objects.first(), my_request)
