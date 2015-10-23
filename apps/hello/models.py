@@ -1,4 +1,3 @@
-from datetime import datetime
 from functools import wraps
 from django.db import models
 from django.db.models.signals import pre_delete, post_save
@@ -63,9 +62,7 @@ def save_signal(sender, instance, created, **kwargs):
 
 @receiver(pre_delete)
 def delete_signal(instance, **kwargs):
-    date = datetime.now()
     ModelSignal.objects.create(
         model=instance.__class__.__name__,
         action='deletion',
-        date=date
     )
