@@ -1,11 +1,13 @@
 from apps.hello.models import MyData
+from .widgets import DatePickerWidget
 from django import forms
-from django.forms.extras.widgets import SelectDateWidget
 
 
 class EditForm(forms.ModelForm):
+    date_of_birth = forms.DateField(widget=DatePickerWidget(
+        params="dateFormat: 'yy-mm-dd', changeYear: true,"
+               " defaultDate: 'c-20', yearRange: 'c-100:c'",
+        attrs={'class': 'datepicker'}))
+
     class Meta:
         model = MyData
-        widgets = {
-            'date_of_birth': SelectDateWidget(years=range(1920, 2015))
-        }

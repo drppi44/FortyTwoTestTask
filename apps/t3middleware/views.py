@@ -1,33 +1,22 @@
 import json
-from django.core import serializers
 from django.http import HttpResponse
+from django.shortcuts import render
+from django.template.loader import render_to_string
 from .models import MyHttpRequest
-from django.shortcuts import render_to_response
 
 
 def request_view(request, template='request.html'):
-    data = MyHttpRequest.objects.all().order_by('-time')[:10]
+    MyHttpRequest.objects.filter(is_viewed=False).update(is_viewed=True)
 
-    for obj in data:
-        obj.is_viewed = True
-        obj.save()
-
-    requests_count = MyHttpRequest.objects.filter(is_viewed=False).count()
-
-    return render_to_response(template, {'requests_count': requests_count})
+    return render(request, template)
 
 
 def get_requests(request):
-    """ return  10 last Http Requests from DB """
-    data = MyHttpRequest.objects.all().order_by('-time')[:10]
-
-    data = serializers.serialize('json', data)
-
-    return HttpResponse(data)
-
-
-def get_requests_count(request):
-    """ return not viewed requests count """
-    data = MyHttpRequest.objects.filter(is_viewed=False).count()
-
-    return HttpResponse(json.dumps(data))
+    """ return  10 last Http Requests from DB and not viewed count"""
+    ten_requests = MyHttpRequest.objects.all()[:10]
+    data = dict(
+        count=MyHttpRequest.objects.filter(is_viewed=False).count(),
+        text=render_to_string('table_for_requests.html',
+                              dict(requests=ten_requests))
+    )
+    return HttpResponse(json.dumps(data), content_type='application/json')
