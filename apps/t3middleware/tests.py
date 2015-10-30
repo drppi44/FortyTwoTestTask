@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from .models import MyHttpRequest
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
+import re
 
 
 class TestRequestView(TestCase):
@@ -91,12 +92,18 @@ class TestPriority(TestCase):
 
     def test_(self):
         """ test entities with higher priority goes earlier """
-        self.client.get(reverse('index'))
-        self.client.get(reverse('index'))
-        self.client.get(reverse('index'))
+        for i in range(5):
+            self.client.get(reverse('index'))
+            _request = MyHttpRequest.objects.last()
+            _request.priority = 4-i
+            _request.save()
 
-        my_request = MyHttpRequest.objects.all()[1]
-        my_request.priority = 1
-        my_request.save()
+        response = self.client.get(reverse('getrequests'))
+        text = json.loads(response.content)['text']
 
-        self.assertEquals(MyHttpRequest.objects.first(), my_request)
+        p = re.compile(ur'<td>(\d+)</td>')
+        match = re.findall(p, text)
+
+        res = ['%d' % (4-i) for i in range(5)]
+
+        self.assertEquals(match, res)
