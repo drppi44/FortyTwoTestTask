@@ -107,3 +107,11 @@ class TestPriority(TestCase):
         res = ['%d' % (4-i) for i in range(5)]
 
         self.assertEquals(match, res)
+
+
+class TestNoData(TestCase):
+    def test_error_msg_if_no_data(self):
+        """error message on home page if no user_data in db"""
+        response = self.client.get(reverse('index'))
+
+        self.assertIn("Error: No data", response.content)

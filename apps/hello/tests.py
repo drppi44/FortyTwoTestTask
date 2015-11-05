@@ -1,9 +1,9 @@
 import StringIO
+from .templatetags.edit_link import url_to_edit_object
 from apps.t3middleware.models import MyHttpRequest
 from django.core import management
 from django.db.models import get_models
 from .models import MyData, ModelSignal
-from .templatetags.my_tag import url_to_edit_object
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load my_tag %}
+{% load edit_link %}
 
 {% block content %}
 
@@ -7,8 +7,10 @@
 
     <h1>42 Coffee Cups Test Assignment</h1>
     <hr>
+    {% if data %}
 
-    <div class="col-md-9 col-md-offset-2 personal-info">
+
+        <div class="col-md-9 col-md-offset-2 personal-info">
 
         <div class="row">
             <div class="col-md-6"><label><h3>Personal info</h3></label></div>
@@ -68,6 +70,11 @@
         <a  href="{% url "request" %}">requests</a>
         </div>
     </div>
+    {% else %}
+        <div class="col-md-9 offset-2 personal-info">
+        <h3>Error: No data</h3>
+        </div>
+    {% endif %}
 </div>
 
 {% endblock %}
