@@ -25,7 +25,7 @@ def load_fixture(file_name, orm):
 class Migration(DataMigration):
 
     def forwards(self, orm):
-        load_fixture('my_fixture.json', orm)
+        load_fixture('user_data.json', orm)
 
     models = {
         u'hello.mydata': {

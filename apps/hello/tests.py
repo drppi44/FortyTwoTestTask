@@ -22,7 +22,7 @@ _data = {
 
 class HomeViewTest(TestCase):
     """ ticket#1 test: home page with bio """
-    fixtures = ['my_fixture.json']
+    fixtures = ['user_data.json']
 
     def test_initial_data_for_admin_load(self):
         """ admin-admin exits in db """
@@ -71,7 +71,7 @@ class HomeViewTest(TestCase):
 
 class MyTagTest(TestCase):
     """ ticket#8 test: link to edit object in admin """
-    fixtures = ['my_fixture.json']
+    fixtures = ['user_data.json']
 
     def test_link_to_render_object_works(self):
         """ fn returns url to edit object"""
@@ -92,7 +92,7 @@ class MyTagTest(TestCase):
 
 class CommandTest(TestCase):
     """ print_models command prints all models """
-    fixtures = ['my_fixture.json']
+    fixtures = ['user_data.json']
 
     def test_command_prints_models_names(self):
         """ command prints all models """
@@ -116,7 +116,7 @@ class CommandTest(TestCase):
 
 
 class ModelSignalTest(TestCase):
-    fixtures = ['my_fixture.json']
+    fixtures = ['user_data.json']
 
     def test_signal_edit_works(self):
         """editing any model saves in db"""
