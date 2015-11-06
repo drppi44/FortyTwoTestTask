@@ -39,13 +39,14 @@ class TestRequestView(TestCase):
 
         self.assertTemplateUsed(response, 'request.html')
 
-    def test_custom_middleware_doesnt_save_getrequests_post(self):
+    def test_custom_middleware_doesnt_save_ajax_requests(self):
         """ i've decided ignore  request from /request/ page"""
         self.client.get(reverse('index'))
 
         _count = MyHttpRequest.objects.count()
 
-        self.client.post(reverse('getrequests'))
+        self.client.post(reverse('getrequests'),
+                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
         self.assertEquals(_count, MyHttpRequest.objects.count())
         self.assertNotEquals(_count, 0)
@@ -53,25 +54,29 @@ class TestRequestView(TestCase):
     def test_get_requests_retuns_not_viewed_request_number(self):
         """ requests number should updates asynchronously """
         self.client.get(reverse('index'))
-        response = self.client.get(reverse('getrequests'))
+        response = self.client.get(reverse('getrequests'),
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         data = json.loads(response.content)
-        self.assertEquals(data['count'], 1)
+        self.assertEquals(data['count'], MyHttpRequest.objects.filter(
+            is_viewed=False).count())
 
         self.client.get(reverse('index'))
-        response = self.client.get(reverse('getrequests'))
+        response = self.client.get(reverse('getrequests'),
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         data = json.loads(response.content)
-        self.assertEquals(data['count'], 2)
+        self.assertEquals(data['count'], MyHttpRequest.objects.filter(
+            is_viewed=False).count())
 
     def test_requests_count_updates_on_page_reload(self):
         """when /request/ page updates - all myhhtprequest objects sets ridden
         """
         self.client.get(reverse('index'))
-        response = self.client.get(reverse('getrequests'))
-        self.assertEquals(json.loads(response.content)['count'], 1)
+        self.assertEquals(
+            MyHttpRequest.objects.filter(is_viewed=False).count(), 1)
 
         self.client.get(reverse('request'))
-        response = self.client.get(reverse('getrequests'))
-        self.assertEquals(json.loads(response.content)['count'], 0)
+        self.assertEquals(
+            MyHttpRequest.objects.filter(is_viewed=False).count(), 0)
 
     def test_reqeust_page_shows_exactly_10_last_requests(self):
         """get_requests fn return 10 last requests"""
@@ -90,21 +95,22 @@ class TestPriority(TestCase):
     """ testing  order by priority field"""
     fixtures = ['user_data.json']
 
-    def test_(self):
+    def test_priority_sorts(self):
         """ test entities with higher priority goes earlier """
         for i in range(5):
             self.client.get(reverse('index'))
             _request = MyHttpRequest.objects.last()
-            _request.priority = 4-i
+            _request.priority = 4 - i
             _request.save()
 
-        response = self.client.get(reverse('getrequests'))
+        response = self.client.get(reverse('getrequests'),
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         text = json.loads(response.content)['text']
 
         p = re.compile(ur'>(\d+)</div>')
         match = re.findall(p, text)
 
-        res = ['%d' % (4-i) for i in range(5)]
+        res = ['%d' % (4 - i) for i in range(5)]
 
         self.assertEquals(match, res)
 

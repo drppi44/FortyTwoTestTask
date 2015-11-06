@@ -11,6 +11,5 @@ class CustomMiddleware(object):
             'uri': request.build_absolute_uri(),
             'query_string': request.META['QUERY_STRING']
         }
-
-        if 'request' not in kwargs['uri'] and 'jsi18n' not in kwargs['uri']:
+        if not request.is_ajax() and 'jsi18n' not in kwargs['uri']:
             MyHttpRequest.objects.create(**kwargs)
