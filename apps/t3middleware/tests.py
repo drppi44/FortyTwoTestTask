@@ -101,7 +101,7 @@ class TestPriority(TestCase):
         response = self.client.get(reverse('getrequests'))
         text = json.loads(response.content)['text']
 
-        p = re.compile(ur'<td>(\d+)</td>')
+        p = re.compile(ur'>(\d+)</div>')
         match = re.findall(p, text)
 
         res = ['%d' % (4-i) for i in range(5)]
