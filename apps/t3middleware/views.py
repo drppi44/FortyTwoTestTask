@@ -6,7 +6,7 @@ from .models import MyHttpRequest
 
 
 def request_view(request, template='request.html'):
-    MyHttpRequest.objects.filter(is_viewed=False).update(is_viewed=True)
+    MyHttpRequest.objects.update(is_viewed=True)
 
     return render(request, template)
 
