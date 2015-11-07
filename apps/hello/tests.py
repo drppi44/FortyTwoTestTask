@@ -1,5 +1,5 @@
 import StringIO
-from .templatetags.edit_link import url_to_edit_object
+from .templatetags.edit_link import edit_link
 from apps.t3middleware.models import MyHttpRequest
 from django.core import management
 from django.db.models import get_models
@@ -76,7 +76,7 @@ class MyTagTest(TestCase):
     def test_link_to_render_object_works(self):
         """ fn returns url to edit object"""
         user = User.objects.first()
-        link = url_to_edit_object(user)
+        link = edit_link(user)
 
         self.assertEquals(r'/admin/auth/user/%d/' % user.id, link)
 

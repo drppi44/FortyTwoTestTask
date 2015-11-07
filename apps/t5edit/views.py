@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 
-@login_required(login_url='/login/')
+@login_required()
 def edit_page(request):
     if request.method == 'POST' and request.is_ajax():
         instance = MyData.objects.first()
