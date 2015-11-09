@@ -3,46 +3,34 @@
 
 {% block content %}
 
-<div class="container">
-
-    <h1>42 Coffee Cups Test Assignment</h1>
-    <hr>
-    {% if data %}
-
-
-        <div class="col-md-9 col-md-offset-2 personal-info">
-
-        <div class="row">
-            <div class="col-md-6"><label><h3>Personal info</h3></label></div>
-
+<div class="col-md-9 col-md-offset-2">
+    <div class="row ">
+        <div class="col-md-6">
+            <h2>42 Coffee Cups Test Assignment</h2>
+        </div>
+        <div class="col-md-6 text-center">
+            <br>
             {% if user.is_authenticated %}
-             <div class="col-md-6">
                  <a href="{% url 'edit' %}">Edit</a>
-                 <a href="{% edit_link user %}">(admin)</a>
+                 <a href="{% edit_link data %}">(admin)</a>
                  <a href="{% url 'logout' %}">Logout</a>
-             </div>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>
             {% endif %}
         </div>
+    </div>
 
-        <div class="row">
-          <div class="col-md-6">{{ data.name }}</div>
-          <div class="col-md-6"><label>Contacts</label></div>
-        </div>
+    <hr>
 
-        <div class="row">
-          <div class="col-md-6">{{ data.last_name }}</div>
-          <div class="col-md-6"><label>Email:</label>{{ data.email }}</div>
-        </div>
+    {% if data %}
 
-        <div class="row">
-          <div class="col-md-6">{{ data.date_of_birth }}</div>
-          <div class="col-md-6"><label >Jabber:</label>{{ data.jabber }}</div>
-        </div>
+    <div class="row">
+        <div class="col-md-9 col-md-offset-2">
 
-        <div class="row">
             <div class="col-md-6">
+                <p>{{ data.name }}</p>
+                <p>{{ data.last_name }}</p>
+                <p>{{ data.date_of_birth }}</p>
                 <label for="">Photo:</label><br>
                 {% if data.avatar %}
                     <img src="{{ data.avatar.url }}"  alt="avatar">
@@ -50,26 +38,27 @@
                     <img src="//placehold.it/100" class="avatar img-circle" alt="avatar">
                 {% endif %}
             </div>
-            <div class="col-md-6"><label>Skype:</label>{{ data.skype }}</div>
-        </div>
 
-        <div class="row">
-          <div class="col-md-6 col-md-offset-6"><label>Other contacts:</label><br>{{ data.other_contacts|linebreaks }}</div>
-        </div>
+            <div class="col-md-6">
+                <p><label>Contacts</label></p>
+                <p><label>Email:</label>{{ data.email }}</p>
+                <p><label >Jabber:</label>{{ data.jabber }}</p>
+                <p><label>Skype:</label>{{ data.skype }}</p>
+                <p><label>Other contacts:</label><br>{{ data.other_contacts|linebreaks }}</p>
+                <p><label>Bio:</label> <br>{{ data.bio }}</p>
+            </div>
 
-        <div class="row">
-          <div class="col-md-6 col-md-offset-6"><label>Bio:</label> <br>{{ data.bio }}</div>
         </div>
-
     </div>
 
     <hr>
 
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-        <a  href="{% url "request" %}">requests</a>
+            <a  href="{% url "request" %}">requests</a>
         </div>
     </div>
+
     {% else %}
         <div class="col-md-9 offset-2 personal-info">
         <h3>Error: No data</h3>

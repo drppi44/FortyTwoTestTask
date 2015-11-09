@@ -1,9 +1,9 @@
 import StringIO
-from .templatetags.edit_link import edit_link
-from apps.t3middleware.models import MyHttpRequest
+from ..templatetags.edit_link import edit_link
+from ..models import MyHttpRequest
 from django.core import management
 from django.db.models import get_models
-from .models import MyData, ModelSignal
+from apps.hello.models import UserProfile, ModelSignal
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -34,7 +34,7 @@ class HomeViewTest(TestCase):
 
     def test_initial_data_load(self):
         """ my data exits in db (name,last_name,bio....) """
-        data = MyData.objects.first()
+        data = UserProfile.objects.first()
 
         for key in _data.keys():
             self.assertEquals(_data[key], getattr(data, key))
@@ -49,18 +49,18 @@ class HomeViewTest(TestCase):
     def test_data_in_home_view_equals_data_io_db(self):
         """ data send to template is valid """
         response = self.client.get(reverse('index'))
-        data = MyData.objects.first()
+        data = UserProfile.objects.first()
 
         self.assertEquals(response.context['data'], data)
 
     def test_db_contains_one_data_entity(self):
-        """bd must contain 1 mydata instance"""
-        count = MyData.objects.count()
+        """bd must contain 1 UserProfile instance"""
+        count = UserProfile.objects.count()
 
         self.assertEquals(count, 1)
 
     def test_home_html_renders_with_data(self):
-        """rendered html page should contain mydata"""
+        """rendered html page should contain UserProfile"""
         response = self.client.get(reverse('index'))
 
         for value in _data.values():
@@ -83,11 +83,11 @@ class MyTagTest(TestCase):
     def test_link_to_render_object_valid_renders_in_html(self):
         """ html has link to edit object"""
         self.client.login(username='admin', password='admin')
-        user = User.objects.first()
+        _id = UserProfile.objects.first().id
 
         response = self.client.get(reverse('index'))
 
-        self.assertIn(r'/admin/auth/user/%d/' % user.id, response.content)
+        self.assertIn(r'/admin/hello/userprofile/%d/' % _id, response.content)
 
 
 class CommandTest(TestCase):
@@ -120,13 +120,13 @@ class ModelSignalTest(TestCase):
 
     def test_signal_edit_works(self):
         """editing any model saves in db"""
-        profile = MyData.objects.first()
+        profile = UserProfile.objects.first()
         profile.name = 'John'
         profile.save()
 
         entity = ModelSignal.objects.last()
 
-        self.assertEquals(entity.model, MyData.__name__)
+        self.assertEquals(entity.model, UserProfile.__name__)
         self.assertEquals(entity.action, 'editing')
 
     def test_signal_create_works(self):

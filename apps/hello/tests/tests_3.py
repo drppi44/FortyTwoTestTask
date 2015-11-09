@@ -1,10 +1,10 @@
 import json
-from apps.hello.models import MyData
+from ..models import UserProfile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import EditForm
-from apps.hello.tests import _data
+from ..forms import EditForm
+from .tests import _data
 
 
 class TestLoginPage(TestCase):
@@ -80,8 +80,8 @@ class TestEditPage(TestCase):
 
         self.assertIn('edit-form', response.content)
 
-    def test_edit_post_ajax_changes_mydata(self):
-        """ /edit/ post ajax request must change mydata if its valid"""
+    def test_edit_post_ajax_changes_UserProfile(self):
+        """ /edit/ post ajax request must change UserProfile if its valid"""
         self.client.login(username='admin', password='admin')
 
         data = _data.copy()
@@ -90,11 +90,11 @@ class TestEditPage(TestCase):
         response = self.client.post(reverse('edit'), data,
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(MyData.objects.first().name, data['name'])
+        self.assertEquals(UserProfile.objects.first().name, data['name'])
         self.assertEquals(json.loads(response.content)['success'], True)
 
     def test_edit_post_not_ajax_does_not_chane_data(self):
-        """ /edit/ post not ajax request must change mydata if its valid"""
+        """/edit/ post not ajax request must change UserProfile if its valid"""
         self.client.login(username='admin', password='admin')
 
         data = _data.copy()
@@ -102,7 +102,7 @@ class TestEditPage(TestCase):
 
         self.client.post(reverse('edit'), data)
 
-        self.assertNotEquals(MyData.objects.first().name, data['name'])
+        self.assertNotEquals(UserProfile.objects.first().name, data['name'])
 
     def test_not_logged_in_user_cant_get_edit_page(self):
         """not logged in user getting edit page - redirects '/' """

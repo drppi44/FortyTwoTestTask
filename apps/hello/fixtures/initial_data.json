@@ -1,7 +1,7 @@
 [
 {
   "pk": 1,
-  "model": "hello.mydata",
+  "model": "hello.userprofile",
   "fields": {
     "bio": "Django developer",
     "last_name": "Shevchenko",

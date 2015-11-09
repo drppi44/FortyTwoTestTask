@@ -1,4 +1,4 @@
-from apps.hello.models import MyData
+from .models import UserProfile
 from .widgets import DatePickerWidget
 from django import forms
 
@@ -10,4 +10,4 @@ class EditForm(forms.ModelForm):
         attrs={'class': 'datepicker'}))
 
     class Meta:
-        model = MyData
+        model = UserProfile

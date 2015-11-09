@@ -1,7 +1,7 @@
 import json
-from apps.hello.models import MyData
+from ..models import UserProfile
 from django.core.urlresolvers import reverse
-from .models import MyHttpRequest
+from ..models import MyHttpRequest
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
 import re
@@ -119,7 +119,7 @@ class TestPriority(TestCase):
 class TestNoData(TestCase):
     def test_error_msg_if_no_data(self):
         """error message on home page if no user_data in db"""
-        MyData.objects.first().delete()
+        UserProfile.objects.first().delete()
         response = self.client.get(reverse('index'))
 
         self.assertIn("Error: No data", response.content)
