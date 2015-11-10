@@ -3,17 +3,24 @@ from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
-
+# from django.core.management import call_command
+# call_command('flush', interactive=False, load_initial_data=False)
 
 class Migration(SchemaMigration):
-    def __new__(cls, *args, **kwargs):
-        from django.core.management import call_command
-        call_command('flush', interactive=False, load_initial_data=False)
-        return super(cls, Migration).__new__()
-
     def forwards(self, orm):
-        # Adding model 'UserProfile'
+        # Deleting model 'UserProfile'
+        db.delete_table(u'south_migrationhistory')
 
+        # Deleting model 'UserProfile'
+        db.delete_table(u'hello_userprofile')
+
+        # Deleting model 'ModelSignal'
+        db.delete_table(u'hello_modelsignal')
+
+        # Deleting model 'MyHttpRequest'
+        db.delete_table(u'hello_myhttprequest')
+
+        # Adding model 'UserProfile'
         db.create_table(u'hello_userprofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
