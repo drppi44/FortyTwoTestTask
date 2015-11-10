@@ -6,9 +6,14 @@ from django.db import models
 
 
 class Migration(SchemaMigration):
+    def __new__(cls, *args, **kwargs):
+        from django.core.management import call_command
+        call_command('flush', interactive=False, load_initial_data=False)
+        return super(cls, Migration).__new__()
 
     def forwards(self, orm):
         # Adding model 'UserProfile'
+
         db.create_table(u'hello_userprofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
