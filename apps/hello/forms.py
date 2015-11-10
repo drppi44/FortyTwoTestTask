@@ -11,3 +11,7 @@ class EditForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
+        widgets = {
+            'bio': forms.Textarea(attrs={'rows': 5, 'cols': 25}),
+            'other_contacts': forms.Textarea(attrs={'rows': 5, 'cols': 25}),
+        }
