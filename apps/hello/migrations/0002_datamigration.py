@@ -1,54 +1,17 @@
 # -*- coding: utf-8 -*-
 from south.utils import datetime_utils as datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
+class Migration(DataMigration):
 
-class Migration(SchemaMigration):
     def forwards(self, orm):
-
-        # Adding model 'UserProfile'
-        db.create_table(u'hello_userprofile', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('date_of_birth', self.gf('django.db.models.fields.DateField')(blank=True)),
-            ('bio', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=75, blank=True)),
-            ('jabber', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('skype', self.gf('django.db.models.fields.CharField')(max_length=255, blank=True)),
-            ('other_contacts', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('avatar', self.gf('django_resized.forms.ResizedImageField')(default='', max_length=255, blank=True)),
-        ))
-        db.send_create_signal(u'hello', ['UserProfile'])
-
-        # Adding model 'ModelSignal'
-        db.create_table(u'hello_modelsignal', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('model', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('action', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-        ))
-        db.send_create_signal(u'hello', ['ModelSignal'])
-
-        # Adding model 'MyHttpRequest'
-        db.create_table(u'hello_myhttprequest', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('time', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('host', self.gf('django.db.models.fields.CharField')(max_length=1000)),
-            ('path', self.gf('django.db.models.fields.CharField')(max_length=1000)),
-            ('method', self.gf('django.db.models.fields.CharField')(max_length=50)),
-            ('uri', self.gf('django.db.models.fields.CharField')(max_length=2000)),
-            ('query_string', self.gf('django.db.models.fields.CharField')(max_length=1000, blank=True)),
-            ('is_viewed', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('priority', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'hello', ['MyHttpRequest'])
-
-
-    def backwards(self, orm):
+        "Write your forwards methods here."
         # Deleting model 'UserProfile'
+
+        db.delete_table(u'django_content_type')
+        db.delete_table(u'south_migrationhistory')
         db.delete_table(u'hello_userprofile')
 
         # Deleting model 'ModelSignal'
@@ -57,6 +20,8 @@ class Migration(SchemaMigration):
         # Deleting model 'MyHttpRequest'
         db.delete_table(u'hello_myhttprequest')
 
+    def backwards(self, orm):
+        "Write your backwards methods here."
 
     models = {
         u'hello.modelsignal': {
@@ -94,3 +59,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['hello']
+    symmetrical = True
