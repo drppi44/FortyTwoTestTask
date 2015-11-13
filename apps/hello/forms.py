@@ -1,5 +1,5 @@
-from .models import UserProfile
-from .widgets import DatePickerWidget
+from apps.hello.models import UserProfile
+from apps.hello.widgets import DatePickerWidget
 from django import forms
 
 

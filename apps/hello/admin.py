@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile, ModelSignal, MyHttpRequest
+from apps.hello.models import UserProfile, ModelSignal, MyHttpRequest
 
 
 class MyHttpRequestAdmin(admin.ModelAdmin):

@@ -1,4 +1,4 @@
-from .models import MyHttpRequest
+from apps.hello.models import MyHttpRequest
 
 
 class CustomMiddleware(object):

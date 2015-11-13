@@ -1,7 +1,7 @@
 import json
-from ..models import UserProfile
+from apps.hello.models import UserProfile
 from django.core.urlresolvers import reverse
-from ..models import MyHttpRequest
+from apps.hello.models import MyHttpRequest
 from django.test import TestCase
 from django.test.client import RequestFactory, Client
 import re

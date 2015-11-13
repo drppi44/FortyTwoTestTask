@@ -1,4 +1,4 @@
-from views import index_view, request_view, get_requests, edit_page
+from apps.hello.views import index_view, request_view, get_requests, edit_page
 from django.conf.urls import patterns, url
 
 

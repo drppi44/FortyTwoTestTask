@@ -3,9 +3,9 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .models import MyHttpRequest, UserProfile
-from .forms import EditForm
-from . import signals  # noqa
+from apps.hello.models import MyHttpRequest, UserProfile
+from apps.hello.forms import EditForm
+import signals  # noqa
 
 
 def index_view(request, template='index.html'):

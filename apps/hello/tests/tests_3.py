@@ -1,10 +1,10 @@
 import json
-from ..models import UserProfile
+from apps.hello.models import UserProfile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.contrib.auth.forms import AuthenticationForm
-from ..forms import EditForm
-from .tests import _data
+from apps.hello.forms import EditForm
+from apps.hello.tests.tests import _data
 
 
 class TestLoginPage(TestCase):

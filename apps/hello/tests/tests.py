@@ -1,6 +1,6 @@
 import StringIO
-from ..templatetags.edit_link import edit_link
-from ..models import MyHttpRequest
+from apps.hello.templatetags.edit_link import edit_link
+from apps.hello.models import MyHttpRequest
 from django.core import management
 from django.db.models import get_models
 from apps.hello.models import UserProfile, ModelSignal
