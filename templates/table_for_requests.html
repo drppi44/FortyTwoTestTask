@@ -1,15 +1,17 @@
 <div class="row">
-    <div class="col-md-4"><b>URI</b></div>
-    <div class="col-md-4"><b>time</b></div>
-    <div class="col-md-4"><b>priority</b></div>
+    <div class="col-md-5"><b>URI</b></div>
+    <div class="col-md-2"><b>method</b></div>
+    <div class="col-md-2"><b>time</b></div>
+    <div class="col-md-2"><b>priority</b></div>
 </div>
 
 {% for request in requests %}
 
 <div class="row">
-    <div class="col-md-4">{{ request.uri }}</div>
-    <div class="col-md-4">{{ request.time|date:"Y-m-d H:m" }}</div>
-    <div class="col-md-4">{{ request.priority }}</div>
+    <div class="col-md-5">{{ request.uri }}</div>
+    <div class="col-md-2">{{ request.method }}</div>
+    <div class="col-md-2">{{ request.time|date:"Y-m-d H:m" }}</div>
+    <div class="col-md-2">{{ request.priority }}</div>
 </div>
 
 {% endfor %}
