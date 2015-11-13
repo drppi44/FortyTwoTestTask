@@ -7,6 +7,9 @@ from .models import MyHttpRequest, UserProfile
 from .forms import EditForm
 from . import signals  # noqa
 
+from django.core.management import call_command
+call_command("loaddata", "initial_data.json")
+
 
 def index_view(request, template='index.html'):
     data = UserProfile.objects.first()
