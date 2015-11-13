@@ -8,6 +8,11 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Deleting model 'UserProfile'
+        db.delete_table(u'hello_userprofile')
+
+        # Deleting model 'MyHttpRequest'
+        db.delete_table(u'hello_myhttprequest')
         # Adding model 'UserProfile'
         db.create_table(u'hello_userprofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
