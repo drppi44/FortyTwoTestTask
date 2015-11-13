@@ -8,8 +8,6 @@ from .tests import _data
 
 
 class TestLoginPage(TestCase):
-    fixtures = ['user_data.json']
-
     def test_login_page_returns_correct_html_status_code(self):
         """ login page should use login.html"""
         response = self.client.get(reverse('login'))
@@ -47,8 +45,6 @@ class TestLoginPage(TestCase):
 
 
 class TestEditPage(TestCase):
-    fixtures = ['user_data.json']
-
     def test_edit_page_uses_correct_html(self):
         """/edit/ url must use edit.html"""
         self.client.login(username='admin', password='admin')

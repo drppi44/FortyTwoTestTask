@@ -11,8 +11,6 @@ class TestRequestView(TestCase):
     """ Test class for t3middleware app include tests: save request to db,
      show it on page, update page asynchronously
     """
-    fixtures = ['user_data.json']
-
     def test_save_request_to_db(self):
         """ each request should be saved in db """
         factory = RequestFactory()
@@ -94,8 +92,6 @@ class TestRequestView(TestCase):
 
 class TestPriority(TestCase):
     """ testing  order by priority field"""
-    fixtures = ['user_data.json']
-
     def test_priority_sorts(self):
         """ test entities with higher priority goes earlier """
         for i in range(5):
