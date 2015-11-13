@@ -14,13 +14,11 @@ def index_view(request, template='hello/index.html'):
 
 
 def request_view(request, template='hello/request.html'):
-    MyHttpRequest.objects.update(is_viewed=True)
-
     return render(request, template)
 
 
 def get_requests(request):
-    """ return  10 last Http Requests from DB and not viewed count"""
+    """ return 10 last Http Requests from DB and not viewed count"""
     ten_requests = MyHttpRequest.objects.all()[:10]
     data = dict(
         count=MyHttpRequest.objects.filter(is_viewed=False).count(),
@@ -49,3 +47,8 @@ def edit_page(request):
 
     form = EditForm(instance=UserProfile.objects.first())
     return render(request, 'hello/edit.html', {'form': form})
+
+
+def update_requests(request):
+    MyHttpRequest.objects.update(is_viewed=True)
+    return HttpResponse()

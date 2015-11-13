@@ -8,6 +8,8 @@
 
 
 {% block extra_head %}
+    <script src="{% static 'js/jquery-visibility.js' %}"></script>
+    <script src="{% static 'js/progress-bar.js' %}"></script>
     <script src="{% static 'js/myjs.js' %}"></script>
 {% endblock %}
 
@@ -19,8 +21,13 @@
         <hr>
 
         <div class="row">
-
-            <h4 id="header_info"></h4>
+            <div class="col-md-8 col-md-offset-1">
+                <h4 id="header_info">
+                    Page is active. Requests is_viewed will be True in <span id="timer">5</span>
+                </h4>
+            </div>
+        </div>
+        <div class="row">
             <div id="request_table">
 
             </div>

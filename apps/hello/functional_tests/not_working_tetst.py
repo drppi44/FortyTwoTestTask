@@ -1,8 +1,8 @@
 import time
-from apps.hello.models import MyData
+from apps.hello.models import UserProfile
 from django.test import LiveServerTestCase
 from selenium import webdriver
-from apps.t3middleware.models import MyHttpRequest
+from apps.hello.models import MyHttpRequest
 
 
 class HomePageTest(LiveServerTestCase):
@@ -16,11 +16,11 @@ class HomePageTest(LiveServerTestCase):
 
     def test_home_page_has_data(self):
         """
-        home page should contain table with mydata in it
+        home page should contain table with UserProfile in it
         """
         self.browser.get(self.live_server_url)
 
-        my_data = MyData.objects.first()
+        my_data = UserProfile.objects.first()
         table_text = self.browser.find_element_by_css_selector(
             '.personal-info').text
 

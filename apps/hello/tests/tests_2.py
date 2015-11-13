@@ -11,6 +11,7 @@ class TestRequestView(TestCase):
     """ Test class for t3middleware app include tests: save request to db,
      show it on page, update page asynchronously
     """
+
     def test_save_request_to_db(self):
         """ each request should be saved in db """
         factory = RequestFactory()
@@ -66,32 +67,35 @@ class TestRequestView(TestCase):
         self.assertEquals(data['count'], MyHttpRequest.objects.filter(
             is_viewed=False).count())
 
-    def test_requests_count_updates_on_page_reload(self):
-        """when /request/ page updates - all myhhtprequest objects sets ridden
+    def test_requests_count_updates_on_force_update(self):
+        """when updaterequests - all myhhtprequest objects sets ridden
         """
         self.client.get(reverse('index'))
         self.assertEquals(
             MyHttpRequest.objects.filter(is_viewed=False).count(), 1)
 
-        self.client.get(reverse('request'))
+        self.client.get(reverse('updaterequests'),
+                        HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEquals(
             MyHttpRequest.objects.filter(is_viewed=False).count(), 0)
 
-    def test_reqeust_page_shows_exactly_10_last_requests(self):
+    def test_request_page_shows_exactly_10_last_requests(self):
         """get_requests fn return 10 last requests"""
         self.client.get(reverse('request'))
         for i in range(9):
             self.client.get(reverse('index'))
 
-        response = self.client.get(reverse('getrequests'))
+        response = self.client.get(reverse('getrequests'),
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         requests_string = json.loads(response.content)['text']
         requests = MyHttpRequest.objects.all().order_by('-time')[:10]
         for request in requests:
-            self.assertIn(request.uri, requests_string)
+            self.assertIn(request.path, requests_string)
 
 
 class TestPriority(TestCase):
     """ testing  order by priority field"""
+
     def test_priority_sorts(self):
         """ test entities with higher priority goes earlier """
         for i in range(5):
@@ -104,7 +108,7 @@ class TestPriority(TestCase):
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         text = json.loads(response.content)['text']
 
-        p = re.compile(ur'>(\d+)</div>')
+        p = re.compile(ur'priority>(\d+)</div>')
         match = re.findall(p, text)
 
         res = ['%d' % (4 - i) for i in range(5)]
