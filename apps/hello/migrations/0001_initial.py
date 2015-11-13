@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Deleting model 'UserProfile'
         db.delete_table(u'hello_userprofile')
-
+        db.delete_table(u'hello_modelsignal')
         # Deleting model 'MyHttpRequest'
         db.delete_table(u'hello_myhttprequest')
         # Adding model 'UserProfile'
