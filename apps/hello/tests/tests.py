@@ -42,7 +42,7 @@ class HomeViewTest(TestCase):
 
         response = self.client.get(reverse('index'))
 
-        self.assertTemplateUsed(response, 'index.html')
+        self.assertTemplateUsed(response, 'hello/index.html')
 
     def test_data_in_home_view_equals_data_io_db(self):
         """ data send to template is valid """

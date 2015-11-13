@@ -20,6 +20,6 @@ class DatePickerWidget(forms.DateInput):
         rendered = super(DatePickerWidget, self).render(name,
                                                         value,
                                                         attrs=attrs)
-        rendered_js = render_to_string('date_time_picker_template.html',
+        rendered_js = render_to_string('hello/date_time_picker_template.html',
                                        dict(name=name, params=self.params))
         return rendered + rendered_js

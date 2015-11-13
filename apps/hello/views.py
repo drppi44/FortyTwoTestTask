@@ -8,12 +8,12 @@ from apps.hello.forms import EditForm
 import signals  # noqa
 
 
-def index_view(request, template='index.html'):
+def index_view(request, template='hello/index.html'):
     data = UserProfile.objects.first()
     return render(request, template, {'data': data})
 
 
-def request_view(request, template='request.html'):
+def request_view(request, template='hello/request.html'):
     MyHttpRequest.objects.update(is_viewed=True)
 
     return render(request, template)
@@ -24,7 +24,7 @@ def get_requests(request):
     ten_requests = MyHttpRequest.objects.all()[:10]
     data = dict(
         count=MyHttpRequest.objects.filter(is_viewed=False).count(),
-        text=render_to_string('table_for_requests.html',
+        text=render_to_string('hello/table_for_requests.html',
                               dict(requests=ten_requests))
     )
     return HttpResponse(json.dumps(data), content_type='application/json')
@@ -48,4 +48,4 @@ def edit_page(request):
             content_type='application/json')
 
     form = EditForm(instance=UserProfile.objects.first())
-    return render(request, 'edit.html', {'form': form})
+    return render(request, 'hello/edit.html', {'form': form})

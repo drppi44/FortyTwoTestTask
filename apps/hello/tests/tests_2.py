@@ -36,7 +36,7 @@ class TestRequestView(TestCase):
         """ /request/ page should use request.html """
         response = self.client.get(reverse('request'))
 
-        self.assertTemplateUsed(response, 'request.html')
+        self.assertTemplateUsed(response, 'hello/request.html')
 
     def test_custom_middleware_doesnt_save_ajax_requests(self):
         """ i've decided ignore  request from /request/ page"""

@@ -50,7 +50,7 @@ class TestEditPage(TestCase):
         self.client.login(username='admin', password='admin')
         respose = self.client.get(reverse('edit'))
 
-        self.assertTemplateUsed(respose, 'edit.html')
+        self.assertTemplateUsed(respose, 'hello/edit.html')
 
     def test_edit_page_has_any_data(self):
         """test page containt h1 header tag"""
