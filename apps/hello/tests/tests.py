@@ -1,9 +1,9 @@
 import StringIO
-from apps.t3middleware.models import MyHttpRequest
+from apps.hello.templatetags.edit_link import edit_link
+from apps.hello.models import MyHttpRequest
 from django.core import management
 from django.db.models import get_models
-from .models import MyData, ModelSignal
-from .templatetags.my_tag import url_to_edit_object
+from apps.hello.models import UserProfile, ModelSignal
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -22,8 +22,6 @@ _data = {
 
 class HomeViewTest(TestCase):
     """ ticket#1 test: home page with bio """
-    fixtures = ['my_fixture.json']
-
     def test_initial_data_for_admin_load(self):
         """ admin-admin exits in db """
         user = User.objects.first()
@@ -34,7 +32,7 @@ class HomeViewTest(TestCase):
 
     def test_initial_data_load(self):
         """ my data exits in db (name,last_name,bio....) """
-        data = MyData.objects.first()
+        data = UserProfile.objects.first()
 
         for key in _data.keys():
             self.assertEquals(_data[key], getattr(data, key))
@@ -44,23 +42,23 @@ class HomeViewTest(TestCase):
 
         response = self.client.get(reverse('index'))
 
-        self.assertTemplateUsed(response, 'index.html')
+        self.assertTemplateUsed(response, 'hello/index.html')
 
     def test_data_in_home_view_equals_data_io_db(self):
         """ data send to template is valid """
         response = self.client.get(reverse('index'))
-        data = MyData.objects.first()
+        data = UserProfile.objects.first()
 
         self.assertEquals(response.context['data'], data)
 
     def test_db_contains_one_data_entity(self):
-        """bd must contain 1 mydata instance"""
-        count = MyData.objects.count()
+        """bd must contain 1 UserProfile instance"""
+        count = UserProfile.objects.count()
 
         self.assertEquals(count, 1)
 
     def test_home_html_renders_with_data(self):
-        """rendered html page should contain mydata"""
+        """rendered html page should contain UserProfile"""
         response = self.client.get(reverse('index'))
 
         for value in _data.values():
@@ -71,29 +69,25 @@ class HomeViewTest(TestCase):
 
 class MyTagTest(TestCase):
     """ ticket#8 test: link to edit object in admin """
-    fixtures = ['my_fixture.json']
-
     def test_link_to_render_object_works(self):
         """ fn returns url to edit object"""
         user = User.objects.first()
-        link = url_to_edit_object(user)
+        link = edit_link(user)
 
         self.assertEquals(r'/admin/auth/user/%d/' % user.id, link)
 
     def test_link_to_render_object_valid_renders_in_html(self):
         """ html has link to edit object"""
         self.client.login(username='admin', password='admin')
-        user = User.objects.first()
+        _id = UserProfile.objects.first().id
 
         response = self.client.get(reverse('index'))
 
-        self.assertIn(r'/admin/auth/user/%d/' % user.id, response.content)
+        self.assertIn(r'/admin/hello/userprofile/%d/' % _id, response.content)
 
 
 class CommandTest(TestCase):
     """ print_models command prints all models """
-    fixtures = ['my_fixture.json']
-
     def test_command_prints_models_names(self):
         """ command prints all models """
         out = StringIO.StringIO()
@@ -116,17 +110,15 @@ class CommandTest(TestCase):
 
 
 class ModelSignalTest(TestCase):
-    fixtures = ['my_fixture.json']
-
     def test_signal_edit_works(self):
         """editing any model saves in db"""
-        profile = MyData.objects.first()
+        profile = UserProfile.objects.first()
         profile.name = 'John'
         profile.save()
 
         entity = ModelSignal.objects.last()
 
-        self.assertEquals(entity.model, MyData.__name__)
+        self.assertEquals(entity.model, UserProfile.__name__)
         self.assertEquals(entity.action, 'editing')
 
     def test_signal_create_works(self):

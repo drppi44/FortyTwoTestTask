@@ -17,8 +17,8 @@ $(document).ready(function() {
  
 // pre-submit callback 
 function preSubmit(formData, jqForm, options) {
-    //$('[type=submit]').button('loading');
-    //$('form :input').attr('disabled', true);
+    $('[type=submit]').val('loading');
+    $('form :input').attr('disabled', true);
     return true;
 } 
 
@@ -38,10 +38,10 @@ function showResponse(responseText, statusText, xhr, $form)  {
     else
         show_erros(responseText.responseJSON.err_msg);
 
-    //setTimeout(function () {
-    //    $('[type=submit]').button('reset');
-    //    $('form :input').attr('disabled', false);
-    //}, 1000);
+    setTimeout(function () {
+        $('[type=submit]').val('Save Changes');
+        $('form :input').attr('disabled', false);
+    }, 1000);
 }
 
 // avatar preview ===================================

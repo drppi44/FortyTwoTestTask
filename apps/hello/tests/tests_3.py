@@ -1,15 +1,13 @@
 import json
-from apps.hello.models import MyData
+from apps.hello.models import UserProfile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import EditForm
-from apps.hello.tests import _data
+from apps.hello.forms import EditForm
+from apps.hello.tests.tests import _data
 
 
 class TestLoginPage(TestCase):
-    fixtures = ['my_fixture.json']
-
     def test_login_page_returns_correct_html_status_code(self):
         """ login page should use login.html"""
         response = self.client.get(reverse('login'))
@@ -47,14 +45,12 @@ class TestLoginPage(TestCase):
 
 
 class TestEditPage(TestCase):
-    fixtures = ['my_fixture.json']
-
     def test_edit_page_uses_correct_html(self):
         """/edit/ url must use edit.html"""
         self.client.login(username='admin', password='admin')
         respose = self.client.get(reverse('edit'))
 
-        self.assertTemplateUsed(respose, 'edit.html')
+        self.assertTemplateUsed(respose, 'hello/edit.html')
 
     def test_edit_page_has_any_data(self):
         """test page containt h1 header tag"""
@@ -80,8 +76,8 @@ class TestEditPage(TestCase):
 
         self.assertIn('edit-form', response.content)
 
-    def test_edit_post_ajax_changes_mydata(self):
-        """ /edit/ post ajax request must change mydata if its valid"""
+    def test_edit_post_ajax_changes_UserProfile(self):
+        """ /edit/ post ajax request must change UserProfile if its valid"""
         self.client.login(username='admin', password='admin')
 
         data = _data.copy()
@@ -90,11 +86,11 @@ class TestEditPage(TestCase):
         response = self.client.post(reverse('edit'), data,
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        self.assertEquals(MyData.objects.first().name, data['name'])
+        self.assertEquals(UserProfile.objects.first().name, data['name'])
         self.assertEquals(json.loads(response.content)['success'], True)
 
     def test_edit_post_not_ajax_does_not_chane_data(self):
-        """ /edit/ post not ajax request must change mydata if its valid"""
+        """/edit/ post not ajax request must change UserProfile if its valid"""
         self.client.login(username='admin', password='admin')
 
         data = _data.copy()
@@ -102,7 +98,7 @@ class TestEditPage(TestCase):
 
         self.client.post(reverse('edit'), data)
 
-        self.assertNotEquals(MyData.objects.first().name, data['name'])
+        self.assertNotEquals(UserProfile.objects.first().name, data['name'])
 
     def test_not_logged_in_user_cant_get_edit_page(self):
         """not logged in user getting edit page - redirects '/' """

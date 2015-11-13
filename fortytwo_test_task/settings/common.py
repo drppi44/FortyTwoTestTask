@@ -45,8 +45,6 @@ INSTALLED_APPS = (
     'south',
 
     'apps.hello',
-    'apps.t3middleware',
-    'apps.t5edit'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,7 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.t3middleware.middleware.CustomMiddleware'
+    'apps.hello.middleware.CustomMiddleware'
 )
 
 ROOT_URLCONF = 'fortytwo_test_task.urls'
@@ -70,7 +68,7 @@ WSGI_APPLICATION = 'fortytwo_test_task.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db_7.sqlite3'),
     }
 }
 
@@ -133,3 +131,4 @@ TEMPLATE_DIRS = (
 # Turn off south during test
 SOUTH_TESTS_MIGRATE = False
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'

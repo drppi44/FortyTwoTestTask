@@ -1,11 +1,8 @@
-from functools import wraps
 from django.db import models
-from django.db.models.signals import pre_delete, post_save
-from django.dispatch import receiver
 from django_resized import ResizedImageField
 
 
-class MyData(models.Model):
+class UserProfile(models.Model):
     name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     date_of_birth = models.DateField(blank=True)
@@ -35,34 +32,19 @@ class ModelSignal(models.Model):
         return unicode('[%s] - %s' % (self.model, self.action))
 
 
-def disable_for_loaddata(signal_handler):
-    """
-    Decorator that turns off signal handlers when loading fixture data.
-    """
+class MyHttpRequest(models.Model):
+    time = models.DateTimeField(auto_now_add=True)
+    host = models.CharField(max_length=1000)
+    path = models.CharField(max_length=1000)
+    method = models.CharField(max_length=50, blank=True, default='')
+    uri = models.CharField(max_length=2000)
+    query_string = models.CharField(max_length=1000, blank=True)
+    is_viewed = models.BooleanField(default=False)
+    priority = models.IntegerField(default=0)
+    status_code = models.IntegerField(max_length=3, default='200')
 
-    @wraps(signal_handler)
-    def wrapper(*args, **kwargs):
-        from django.db import connection
-        if 'hello_modelsignal' not in connection.introspection.table_names():
-            return
-        signal_handler(*args, **kwargs)
-    return wrapper
+    def __unicode__(self):
+        return unicode(self.uri)
 
-
-@receiver(post_save)
-@disable_for_loaddata
-def save_signal(sender, instance, created, **kwargs):
-    if isinstance(instance, ModelSignal):
-        return
-    ModelSignal.objects.create(
-        model=instance.__class__.__name__,
-        action='creation' if created else 'editing',
-    )
-
-
-@receiver(pre_delete)
-def delete_signal(instance, **kwargs):
-    ModelSignal.objects.create(
-        model=instance.__class__.__name__,
-        action='deletion',
-    )
+    class Meta:
+        ordering = ['-priority', '-time']

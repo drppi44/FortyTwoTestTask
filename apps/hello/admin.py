@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import MyData, ModelSignal
+from apps.hello.models import UserProfile, ModelSignal, MyHttpRequest
 
 
-class MyDataAdmin(admin.ModelAdmin):
-    pass
+class MyHttpRequestAdmin(admin.ModelAdmin):
+    list_display = ('uri', 'is_viewed')
 
 
-admin.site.register(MyData, MyDataAdmin)
+admin.site.register(MyHttpRequest, MyHttpRequestAdmin)
+admin.site.register(UserProfile)
 admin.site.register(ModelSignal)

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <script src="{% static 'js/edit_page.js' %}"></script>
+    <script src="{% static 'js/jquery.form.min.js' %}"></script>
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+<div class="col-md-9 col-md-offset-2">
+    <h1>42 Coffee Cups Test Assignment</h1>
+  	<hr>
+	<div class="row">
+        <div class="col-md-9 col-md-offset-2 personal-info">
+            <div class="alert alert-info alert-dismissable" hidden>
+                <a class="panel-close close" data-dismiss="alert">x</a>
+                <i class="fa fa-coffee"></i>
+                <span>Chanes have been saved.</span>
+            </div>
+            <div class="alert alert-danger alert-dismissable" hidden>
+                <a class="panel-close close" data-dismiss="alert">x</a>
+                <i class="fa fa-coffee"></i>
+                <span>Chanes have been saved.</span>
+            </div>
+            <h3>Personal info</h3>
+
+            <form class="form-horizontal" role="form" id="edit-form" enctype="multipart/form-data" method="post" action="{% url "edit" %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.name.label_tag }}</div>
+                    <div class="col-md-3">{{ form.name }}</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.email.label_tag }}</div>
+                    <div class="col-md-3">{{ form.email }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.last_name.label_tag }}</div>
+                    <div class="col-md-3">{{ form.last_name }}</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.jabber.label_tag }}</div>
+                    <div class="col-md-3">{{ form.jabber }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.date_of_birth.label_tag }}</div>
+                    <div class="col-md-3">{{ form.date_of_birth }}</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.skype.label_tag }}</div>
+                    <div class="col-md-3">{{ form.skype }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.avatar.label_tag }}</div>
+                    <div class="col-md-3">{{ form.avatar }}</div>
+                    <br>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.other_contacts.label_tag }}</div>
+                    <div class="col-md-3">{{ form.other_contacts }}</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    {% if form.instance.avatar %}
+                        <img src="{{ form.instance.avatar.url }}" id="preview" height="200" width="200">
+                    {% else %}
+                        <img src="//placehold.it/100" id="preview" height="200" width="200">
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-3">{{ form.bio.label_tag }}</div>
+                    <div class="col-md-3">{{ form.bio }}</div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                  <input type="submit" class="btn btn-primary" value="Save Changes" data-loading-text="Loading...">
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <a class="btn btn-lg btn-success" href="/">home</a>
+            <a class="btn btn-lg btn-success" href="{% url "request" %}">requests</a>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
