@@ -9,7 +9,7 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         from django.core.management import call_command
-        call_command("loaddata", "my_fixture.json")
+        call_command("loaddata", "initial_data.json")
 
     def backwards(self, orm):
         "Write your backwards methods here."
