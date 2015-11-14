@@ -3,7 +3,7 @@ from apps.hello.models import UserProfile, ModelSignal
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-import signals # noqa
+from apps.hello import signals  # noqa
 
 
 class ModelSignalTest(TestCase):
