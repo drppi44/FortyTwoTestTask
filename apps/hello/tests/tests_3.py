@@ -2,46 +2,8 @@ import json
 from apps.hello.models import UserProfile
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from django.contrib.auth.forms import AuthenticationForm
 from apps.hello.forms import EditForm
-from apps.hello.tests.tests import _data
-
-
-class TestLoginPage(TestCase):
-    def test_login_page_returns_correct_html_status_code(self):
-        """ login page should use login.html"""
-        response = self.client.get(reverse('login'))
-
-        self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertEquals(response.status_code, 200)
-
-    def test_login_with_valid_data_works(self):
-        """ login with valid data redirects to login page logged in"""
-        self.client.login(username='admin', password='admin')
-
-        self.assertIn('_auth_user_id', self.client.session)
-
-    def test_login_page_data_has_auth_form(self):
-        """ auth.form must be in page context"""
-        response = self.client.get(reverse('login'))
-
-        self.assertTrue(
-            isinstance(response.context['form'], AuthenticationForm)
-        )
-
-    def test_login_page_renders_with_form(self):
-        """ page content must contain login form"""
-        response = self.client.get(reverse('login'))
-
-        self.assertIn('login_form', response.content)
-        self.assertIn('id_username', response.content)
-        self.assertIn('id_password', response.content)
-
-    def test_home_page_has_login_link(self):
-        """" home page must contain login link"""
-        response = self.client.get(reverse('login'))
-
-        self.assertIn('login', response.content)
+from apps.hello.tests.tests_home_page import user_data
 
 
 class TestEditPage(TestCase):
@@ -71,7 +33,7 @@ class TestEditPage(TestCase):
         self.client.login(username='admin', password='admin')
         response = self.client.get(reverse('edit'))
 
-        for key in _data.keys():
+        for key in user_data.keys():
             self.assertIn('id_' + key, response.content)
 
         self.assertIn('edit-form', response.content)
@@ -80,7 +42,7 @@ class TestEditPage(TestCase):
         """ /edit/ post ajax request must change UserProfile if its valid"""
         self.client.login(username='admin', password='admin')
 
-        data = _data.copy()
+        data = user_data.copy()
         data['name'] = 'Nigel'
 
         response = self.client.post(reverse('edit'), data,
@@ -93,7 +55,7 @@ class TestEditPage(TestCase):
         """/edit/ post not ajax request must change UserProfile if its valid"""
         self.client.login(username='admin', password='admin')
 
-        data = _data.copy()
+        data = user_data.copy()
         data['name'] = 'Nigel'
 
         self.client.post(reverse('edit'), data)
@@ -111,7 +73,7 @@ class TestEditPage(TestCase):
         """/edit/ post request with invalid data"""
         self.client.login(username='admin', password='admin')
 
-        data = _data.copy()
+        data = user_data.copy()
         data['email'] = 'dasdasdasd'
 
         response = self.client.post(reverse('edit'), data,
