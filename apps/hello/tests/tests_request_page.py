@@ -1,5 +1,4 @@
 import json
-from apps.hello.models import UserProfile
 from django.core.urlresolvers import reverse
 from apps.hello.models import MyHttpRequest
 from django.test import TestCase
@@ -92,10 +91,6 @@ class TestRequestView(TestCase):
         for request in requests:
             self.assertIn(request.path, requests_string)
 
-
-class TestPriority(TestCase):
-    """ testing  order by priority field"""
-
     def test_priority_sorts(self):
         """ test entities with higher priority goes earlier """
         for i in range(5):
@@ -114,12 +109,3 @@ class TestPriority(TestCase):
         res = ['%d' % (4 - i) for i in range(5)]
 
         self.assertEquals(match, res)
-
-
-class TestNoData(TestCase):
-    def test_error_msg_if_no_data(self):
-        """error message on home page if no user_data in db"""
-        UserProfile.objects.first().delete()
-        response = self.client.get(reverse('index'))
-
-        self.assertIn("Error: No data", response.content)

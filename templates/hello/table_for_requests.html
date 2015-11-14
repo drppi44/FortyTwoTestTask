@@ -11,11 +11,11 @@
 {% for request in requests %}
 
 <div class="row">
-    <div class="col-md-4 col-md-offset-1">{{ request.path }}</div>
+    <div class="col-md-4 col-md-offset-1 path">{{ request.path }}</div>
     <div class="col-md-1">{{ request.method }}</div>
-    <div class="col-md-1">{{ request.status_code }}</div>
+    <div class="col-md-1" >{{ request.status_code }}</div>
     <div class="col-md-1" priority>{{ request.priority }}</div>
-    <div class="col-md-1">{{ request.is_viewed }}</div>
+    <div class="col-md-1 is_viewed">{{ request.is_viewed }}</div>
     <div class="col-md-2">{{ request.time|date:"Y-m-d H:m" }}</div>
 
 </div>

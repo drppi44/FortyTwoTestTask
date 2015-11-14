@@ -14,10 +14,13 @@ function get_requests(){
     });
 }
 
+
 function force_is_viewed(){
     $.get('/ajax/request/update/')
         .done(get_requests)
 }
+
+
 var show_requests = function(data){
     $('#request_table').html(data.text);
     $('title').html('('+data.count+') 42 Coffee Cups Test Assignment');
