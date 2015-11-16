@@ -92,3 +92,15 @@ class TaskUpdateView(UpdateView):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(TaskUpdateView, self).dispatch(*args, **kwargs)
+
+
+def task_sort(request):
+    if request.method == 'POST' and request.is_ajax():
+        task_position_dicts = json.loads(request.body)
+        for task_position_dict in task_position_dicts:
+            task = Task.objects.get(id=task_position_dict['key'])
+            task.position = task_position_dict['value']
+            task.save()
+        return HttpResponse(json.dumps(dict(success=True)),
+                            content_type='application/json')
+    return HttpResponseBadRequest()

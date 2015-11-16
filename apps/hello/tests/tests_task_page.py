@@ -3,6 +3,7 @@ from apps.hello.models import Task
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+import re
 
 
 class TaskListPageTest(TestCase):
@@ -38,6 +39,24 @@ class TaskListPageTest(TestCase):
         expected_url = '%s?next=%s' % (reverse('login'), reverse('task'))
         self.assertRedirects(response, expected_url=expected_url,
                              status_code=302, target_status_code=200)
+
+    def test_sort_by_position(self):
+        """test task sort by position"""
+        self.client.login(username='admin', password='admin')
+
+        for i in range(5):
+            Task.objects.create(
+                title='title%d' % i,
+                description='description%d' % i,
+                user=User.objects.first(),
+                position=4-i,
+            )
+
+        response = self.client.get(reverse('task'))
+        matchs = re.findall(ur'<b>(.+)</b>', response.content)
+
+        for task, title in zip(Task.objects.all(), matchs):
+            self.assertEquals(task.title, title)
 
 
 class TaskCreatePageTest(TestCase):

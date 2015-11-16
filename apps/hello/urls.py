@@ -20,6 +20,7 @@ urlpatterns = patterns(
     url(r'^task/add$', TaskCreateView.as_view(), name='task_create'),
     url(r'^task/(?P<pk>[0-9]+)/$', TaskUpdateView.as_view(),
         name='task_update'),
+    url(r'^task/sort/$', 'apps.hello.views.task_sort', name='task_sort'),
 
     # auth
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),

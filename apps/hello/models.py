@@ -67,4 +67,4 @@ class Task(models.Model):
         return unicode(self.title)
 
     class Meta:
-        ordering = ['-time']
+        ordering = ['position', '-time']
