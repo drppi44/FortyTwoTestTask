@@ -39,7 +39,7 @@
             </div>
 
             <span><b>{{ task.title }}</b></span>
-            <p>{{ task.description }}</p>
+            <p>{{ task.description|linebreaks }}</p>
             <span class="glyphicon glyphicon-time ">{{ task.time|date:"Y-m-d H:m" }}</span>
         </li>
         {% endfor %}
