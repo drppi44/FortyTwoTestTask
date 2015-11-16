@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.hello.models import UserProfile, ModelSignal, MyHttpRequest
+from apps.hello.models import UserProfile, ModelSignal, MyHttpRequest, Task
 
 
 class MyHttpRequestAdmin(admin.ModelAdmin):
@@ -9,3 +9,4 @@ class MyHttpRequestAdmin(admin.ModelAdmin):
 admin.site.register(MyHttpRequest, MyHttpRequestAdmin)
 admin.site.register(UserProfile)
 admin.site.register(ModelSignal)
+admin.site.register(Task)

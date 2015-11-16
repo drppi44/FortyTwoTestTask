@@ -43,7 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'south',
-
+    'crispy_forms',
     'apps.hello',
 )
 
@@ -132,3 +132,5 @@ TEMPLATE_DIRS = (
 SOUTH_TESTS_MIGRATE = False
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

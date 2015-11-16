@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "header_footer.html" %}
 {% load staticfiles %}
 
 {% block extra_head %}
@@ -8,9 +8,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-md-9 col-md-offset-2">
-    <h1>42 Coffee Cups Test Assignment</h1>
-  	<hr>
+
 	<div class="row">
         <div class="col-md-9 col-md-offset-2 personal-info">
             <div class="alert alert-info alert-dismissable" hidden>
@@ -91,17 +89,5 @@
         </form>
         </div>
     </div>
-
-    <hr>
-
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <a class="btn btn-lg btn-success" href="/">home</a>
-            <a class="btn btn-lg btn-success" href="{% url "request" %}">requests</a>
-        </div>
-    </div>
-
-</div>
-
 
 {% endblock %}

@@ -1,3 +1,4 @@
+from apps.hello.views import TaskCreateView, TaskListView, TaskUpdateView
 from django.conf.urls import patterns, url
 
 urlpatterns = patterns(
@@ -13,6 +14,13 @@ urlpatterns = patterns(
 
     # /edit/
     url(r'^edit/', 'apps.hello.views.edit_page', name='edit'),
+
+    # /task/
+    url(r'^task/$', TaskListView.as_view(), name='task'),
+    url(r'^task/add$', TaskCreateView.as_view(), name='task_create'),
+    url(r'^task/(?P<pk>[0-9]+)/$', TaskUpdateView.as_view(),
+        name='task_update'),
+    url(r'^task/sort/$', 'apps.hello.views.task_sort', name='task_sort'),
 
     # auth
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),

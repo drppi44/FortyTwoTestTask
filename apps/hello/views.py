@@ -3,8 +3,10 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from apps.hello.models import MyHttpRequest, UserProfile
-from apps.hello.forms import EditForm
+from apps.hello.models import MyHttpRequest, UserProfile, Task
+from apps.hello.forms import EditForm, TaskForm
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, ListView, UpdateView
 import signals  # noqa
 
 
@@ -52,3 +54,53 @@ def edit_page(request):
 def update_requests(request):
     MyHttpRequest.objects.update(is_viewed=True)
     return HttpResponse()
+
+
+class TaskListView(ListView):
+    context_object_name = "task_list"
+    template_name = 'hello/task.html'
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TaskListView, self).dispatch(*args, **kwargs)
+
+
+class TaskCreateView(CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'hello/task_create.html'
+    success_url = '/task/'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(TaskCreateView, self).form_valid(form)
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TaskCreateView, self).dispatch(*args, **kwargs)
+
+
+class TaskUpdateView(UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'hello/task_create.html'
+    success_url = '/task/'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TaskUpdateView, self).dispatch(*args, **kwargs)
+
+
+def task_sort(request):
+    if request.method == 'POST' and request.is_ajax():
+        task_position_dicts = json.loads(request.body)
+        for task_position_dict in task_position_dicts:
+            task = Task.objects.get(id=task_position_dict['key'])
+            task.position = task_position_dict['value']
+            task.save()
+        return HttpResponse(json.dumps(dict(success=True)),
+                            content_type='application/json')
+    return HttpResponseBadRequest()

@@ -4,3 +4,4 @@ selenium
 south
 pillow
 django-resized
+django-crispy-forms
