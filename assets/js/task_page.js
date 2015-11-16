@@ -15,7 +15,6 @@ function getCookie(name)
     }
     return cookieValue;
 }
-
 $.ajaxSetup({ 
      beforeSend: function(xhr, settings) {
          if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
