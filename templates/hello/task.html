@@ -1,0 +1,50 @@
+{% extends "header_footer.html" %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+    <div class="row ">
+            <div class="col-md-6">
+                <h2>42 Coffee Cups Test Assignment</h2>
+            </div>
+            <div class="col-md-6">
+                <br>
+                <a href="{% url 'task_create' %}">
+                    <button type="button" class="btn btn-primary pull-right">Add</button>
+                </a>
+            </div>
+        </div>
+        <hr>
+{% endblock %}
+
+{% block content %}
+
+    <ul class="list-group" id="sortable">
+        {% for task in task_list %}
+        <li class="list-group-item">
+
+            <div class="btn-group pull-right">
+              <button type="button" class="btn btn-default">{{ task.get_status_display }}</button>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="{{ task.id }}">Edit</a></li>
+              </ul>
+            </div>
+
+            <span><b>{{ task.title }}</b></span>
+            <p>{{ task.description }}</p>
+            <span class="glyphicon glyphicon-time ">{{ task.time|date:"Y-m-d H:m" }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+
+
+    <script>$("#sortable").sortable();</script>
+
+{% endblock %}

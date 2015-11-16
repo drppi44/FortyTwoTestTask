@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block main %}
+<div class="col-md-9 col-md-offset-2">
+
+    {% block header %}
+        <div class="row ">
+            <div class="col-md-6">
+                <h2>42 Coffee Cups Test Assignment</h2>
+            </div>
+        </div>
+        <hr>
+    {% endblock %}
+
+
+    {% block content %}{% endblock %}
+
+
+    {% block footer %}
+        <hr>
+        <div class="row">
+            <div class="col-md-1">
+                <a  href="/">home</a>
+            </div>
+            <div class="col-md-1">
+                <a  href="{% url "request" %}">requests</a>
+            </div>
+
+            {% if user.is_authenticated %}
+                <div class="col-md-1">
+                    <a  href="{% url "edit" %}">edit</a>
+                </div>
+                <div class="col-md-1">
+                    <a  href="{% url "task" %}">tasks</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endblock %}
+</div>
+{% endblock %}
