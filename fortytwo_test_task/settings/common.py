@@ -134,3 +134,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/login/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+INSTALLED_APPS += ('django_nose',)
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = [
+    '--with-cov',
+    '--cov-report',
+    'xml',
+    '--cov-config=fortytwo_test_task/coverage.cfg',
+]
