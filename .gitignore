@@ -16,5 +16,5 @@ media
 static
 *.dat
 .env
-.coverage
+#.coverage
 uploads/
