@@ -17,4 +17,5 @@ static
 *.dat
 .env
 .coverage
+coverage.xml
 uploads/
